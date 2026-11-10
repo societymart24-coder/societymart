@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SocietyMart - Flat Tak Express Delivery</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -33,14 +31,14 @@
   </header>
 
   <!-- Delivery Offer Strip -->
-  <div class="bg-amber-100 border-b border-amber-300 text-amber-950 px-4 py-2 text-xs font-medium text-center flex items-center justify-center gap-1.5 shadow-sm">
+  <div class="bg-amber-100 border-b border-amber-300 text-amber-950 px-4 py-2 text-xs font-semibold text-center flex items-center justify-center gap-1.5 shadow-sm">
     <span>⚡</span>
-    <span><b>₹200+ ke order par FREE Delivery</b> | Below ₹200: sirf ₹20</span>
+    <span><b>₹200+ par FREE Doorstep Delivery</b> | Below ₹200: sirf ₹20</span>
   </div>
 
   <!-- Trust Badges -->
-  <div class="max-w-md mx-auto px-4 pt-3 flex items-center justify-between text-[11px] text-gray-600">
-    <span><i class="fa-solid fa-bolt text-emerald-600 mr-1"></i> 15-25 Min Flat Delivery</span>
+  <div class="max-w-md mx-auto px-4 pt-3 flex items-center justify-between text-[11px] text-gray-600 font-medium">
+    <span><i class="fa-solid fa-bolt text-emerald-600 mr-1"></i> 15-20 Min Delivery</span>
     <span><i class="fa-solid fa-shield-halved text-emerald-600 mr-1"></i> Dukan ke Asli Daam</span>
     <span><i class="fa-solid fa-qrcode text-emerald-600 mr-1"></i> Pay on Delivery</span>
   </div>
@@ -50,14 +48,14 @@
     <button onclick="filterCategory('All', this)" class="cat-btn active bg-emerald-700 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm">Sabhi Items</button>
     <button onclick="filterCategory('Dairy', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Dairy & Bread</button>
     <button onclick="filterCategory('AttaOil', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Atta, Dal & Tel</button>
-    <button onclick="filterCategory('Snacks', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Snacks & Chai</button>
-    <button onclick="filterCategory('Daily', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Rojmarra Essentials</button>
+    <button onclick="filterCategory('Snacks', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Snacks & Beverages</button>
+    <button onclick="filterCategory('Daily', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Daily Essentials</button>
   </div>
 
-  <!-- Product List Grid -->
+  <!-- Products Container -->
   <main class="max-w-md mx-auto px-4">
     <div id="product-list" class="grid grid-cols-2 gap-3">
-      <!-- Products render dynamically via JS -->
+      <!-- Dynamic Products -->
     </div>
   </main>
 
@@ -79,21 +77,51 @@
 
   <!-- Checkout Drawer / Modal -->
   <div id="checkout-modal" class="fixed inset-0 bg-black/60 z-30 hidden flex justify-center items-end sm:items-center p-0 sm:p-4 backdrop-blur-sm">
-    <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-5 max-h-[92vh] overflow-y-auto">
+    <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-5 max-h-[94vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-3 pb-2 border-b">
         <div>
           <h2 class="text-base font-bold text-gray-900">Aapka Order Summary</h2>
-          <p class="text-xs text-gray-500">Flat tak delivery ke liye details bharein</p>
+          <p class="text-[11px] text-gray-500">Doorstep delivery details</p>
         </div>
         <button onclick="toggleModal(false)" class="text-gray-400 hover:text-gray-600 text-2xl font-bold leading-none p-1">&times;</button>
       </div>
 
       <!-- Items in cart -->
-      <div id="cart-items-summary" class="border-b pb-3 mb-4 space-y-2">
-        <!-- Rendered dynamically -->
+      <div id="cart-items-summary" class="border-b pb-3 mb-3 space-y-2">
+        <!-- Dynamic Summary -->
       </div>
 
-      <!-- Customer Details Form -->
+      <!-- High-Margin Impulse Upsell Section (Aapke Munafay Ke Liye) -->
+      <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3 mb-4">
+        <p class="text-xs font-bold text-amber-900 mb-2 flex items-center gap-1">
+          <span>🍿</span> Sath me kuch namkeen ya drinks chahiye?
+        </p>
+        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+          <div class="bg-white p-2 rounded-lg border border-gray-200 min-w-[130px] flex-shrink-0 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-bold text-gray-800">Lays Classic</p>
+              <p class="text-[10px] text-gray-500">₹20</p>
+            </div>
+            <button onclick="updateCart(10, 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-2 py-0.5 rounded text-[10px] font-bold hover:bg-emerald-100">+ Add</button>
+          </div>
+          <div class="bg-white p-2 rounded-lg border border-gray-200 min-w-[130px] flex-shrink-0 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-bold text-gray-800">Coca Cola (Can)</p>
+              <p class="text-[10px] text-gray-500">₹40</p>
+            </div>
+            <button onclick="updateCart(11, 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-2 py-0.5 rounded text-[10px] font-bold hover:bg-emerald-100">+ Add</button>
+          </div>
+          <div class="bg-white p-2 rounded-lg border border-gray-200 min-w-[130px] flex-shrink-0 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-bold text-gray-800">Cadbury Dairy Milk</p>
+              <p class="text-[10px] text-gray-500">₹20</p>
+            </div>
+            <button onclick="updateCart(12, 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-2 py-0.5 rounded text-[10px] font-bold hover:bg-emerald-100">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Customer Form -->
       <form id="order-form" onsubmit="sendOrderViaWhatsApp(event)" class="space-y-3">
         <div>
           <label class="block text-xs font-semibold text-gray-700 mb-1">Aapka Naam *</label>
@@ -102,7 +130,7 @@
 
         <div>
           <label class="block text-xs font-semibold text-gray-700 mb-1">Building / Society Ka Naam *</label>
-          <input type="text" id="cust-building" required placeholder="eg. Regency Park / Sai Dham" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          <input type="text" id="cust-building" required placeholder="eg. Motiram Lakeview / Regency" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
         </div>
 
         <div class="grid grid-cols-2 gap-2">
@@ -124,34 +152,37 @@
           </select>
         </div>
 
-        <button type="submit" class="w-full mt-3 bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg transition">
-          <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Par Order Bhejein
+        <button type="submit" class="w-full mt-3 bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg transition text-xs">
+          <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp Par Order Bhejein
         </button>
       </form>
     </div>
   </div>
 
   <script>
-    // 1. AAPKA WHATSAPP NUMBER (Bina '+' sign ke, 91 ke sath)
-    const STORE_WHATSAPP_NUMBER = "919960479334"; 
+    // 1. AAPKA WHATSAPP NUMBER (Bina '+' ke, 91 ke sath)
+    const STORE_WHATSAPP_NUMBER = "919876543210"; 
 
-    // 2. PRODUCT CATALOG
+    // 2. PRODUCT CATALOG (Fast moving + High-Margin items)
     const products = [
       { id: 1, name: "Amul Taaza Toned Milk", unit: "500 ml", price: 27, category: "Dairy", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300&auto=format&fit=crop&q=60" },
       { id: 2, name: "Amul Butter", unit: "100 g", price: 58, category: "Dairy", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=300&auto=format&fit=crop&q=60" },
-      { id: 3, name: "Fresh White / Brown Bread", unit: "1 Packet", price: 45, category: "Dairy", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&auto=format&fit=crop&q=60" },
-      { id: 4, name: "Aashirvaad Shudh Chakki Atta", unit: "5 kg", price: 245, category: "AttaOil", img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=60" },
+      { id: 3, name: "Fresh Bread (White/Brown)", unit: "1 Packet", price: 45, category: "Dairy", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&auto=format&fit=crop&q=60" },
+      { id: 4, name: "Aashirvaad Chakki Atta", unit: "5 kg", price: 245, category: "AttaOil", img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=60" },
       { id: 5, name: "Fortune Sunlite Refined Oil", unit: "1 Litre", price: 140, category: "AttaOil", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&auto=format&fit=crop&q=60" },
-      { id: 6, name: "Tata Salt (Iodized)", unit: "1 kg", price: 28, category: "Daily", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300&auto=format&fit=crop&q=60" },
-      { id: 7, name: "Wagh Bakri Premium Chai", unit: "250 g", price: 140, category: "Snacks", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300&auto=format&fit=crop&q=60" },
-      { id: 8, name: "Maggi 2-Minute Masala Noodles", unit: "Pack of 4", price: 56, category: "Snacks", img: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=300&auto=format&fit=crop&q=60" },
-      { id: 9, name: "Surf Excel Easy Wash Detergent", unit: "1 kg", price: 135, category: "Daily", img: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=300&auto=format&fit=crop&q=60" }
+      { id: 6, name: "Tata Salt", unit: "1 kg", price: 28, category: "Daily", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300&auto=format&fit=crop&q=60" },
+      { id: 7, name: "Wagh Bakri Chai", unit: "250 g", price: 140, category: "Snacks", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300&auto=format&fit=crop&q=60" },
+      { id: 8, name: "Maggi Masala Noodles", unit: "Pack of 4", price: 56, category: "Snacks", img: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=300&auto=format&fit=crop&q=60" },
+      { id: 9, name: "Surf Excel Easy Wash", unit: "1 kg", price: 135, category: "Daily", img: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=300&auto=format&fit=crop&q=60" },
+      // High-Margin Add-ons
+      { id: 10, name: "Lays Classic Salted", unit: "1 Packet", price: 20, category: "Snacks", img: "https://placehold.co/150x120?text=Lays" },
+      { id: 11, name: "Coca Cola (Can)", unit: "300 ml", price: 40, category: "Snacks", img: "https://placehold.co/150x120?text=Coke" },
+      { id: 12, name: "Cadbury Dairy Milk", unit: "1 Bar", price: 20, category: "Snacks", img: "https://placehold.co/150x120?text=Dairy+Milk" }
     ];
 
     let cart = {};
     let currentCategory = "All";
 
-    // Products Render
     function renderProducts(category = "All") {
       const container = document.getElementById("product-list");
       container.innerHTML = "";
@@ -186,7 +217,6 @@
       });
     }
 
-    // Update Cart
     function updateCart(productId, change) {
       cart[productId] = (cart[productId] || 0) + change;
       if (cart[productId] <= 0) delete cart[productId];
@@ -195,7 +225,6 @@
       renderProducts(currentCategory);
     }
 
-    // Category Filter Buttons
     function filterCategory(cat, element) {
       currentCategory = cat;
       document.querySelectorAll(".cat-btn").forEach(b => {
@@ -207,7 +236,6 @@
       renderProducts(cat);
     }
 
-    // Calculate Totals & Sticky Bar State
     function updateCartSummary() {
       let totalQty = 0;
       let itemsTotal = 0;
@@ -247,7 +275,6 @@
       }
     }
 
-    // Modal Control
     function toggleModal(show) {
       const modal = document.getElementById("checkout-modal");
       if (show) {
@@ -262,7 +289,6 @@
       }
     }
 
-    // Modal Summary Render
     function renderModalSummary() {
       const container = document.getElementById("cart-items-summary");
       container.innerHTML = "";
@@ -284,7 +310,6 @@
         `;
       }
 
-      // Surcharge / Delivery logic
       const deliveryCharge = itemsTotal >= 200 ? 0 : 20;
       const grandTotal = itemsTotal + deliveryCharge;
       const diffToFree = 200 - itemsTotal;
@@ -296,7 +321,7 @@
             <span class="font-semibold">₹${itemsTotal}</span>
           </div>
           <div class="flex justify-between items-center">
-            <span>Delivery Charge:</span>
+            <span>Doorstep Delivery:</span>
             <span class="${deliveryCharge === 0 ? 'text-emerald-700 font-extrabold' : 'text-gray-800 font-bold'}">
               ${deliveryCharge === 0 ? 'FREE' : '₹20'}
             </span>
@@ -304,7 +329,7 @@
           ${itemsTotal < 200 ? `
             <div class="bg-amber-50 text-amber-900 border border-amber-200 p-2 rounded-lg text-[11px] flex items-center gap-1.5">
               <span>💡</span>
-              <span>Keval <b>₹${diffToFree}</b> ka aur saaman add karein aur payein <b>FREE Delivery</b>!</span>
+              <span>Keval <b>₹${diffToFree}</b> ka aur samaan jodein aur payein <b>FREE Delivery</b>!</span>
             </div>
           ` : `
             <div class="bg-emerald-50 text-emerald-800 border border-emerald-200 p-2 rounded-lg text-[11px] font-semibold text-center">
@@ -312,14 +337,14 @@
             </div>
           `}
           <div class="flex justify-between items-center text-sm font-black pt-2 border-t text-emerald-950">
-            <span>Total Payable Amount:</span>
+            <span>Total Payable:</span>
             <span class="text-emerald-800 text-base">₹${grandTotal}</span>
           </div>
         </div>
       `;
     }
 
-    // 3. WHATSAPP CHECKOUT MESSAGE SCRIPT (Structured Table Format)
+    // 3. WHATSAPP SCRIPT: CUSTOMER RECEIPT + READY-TO-COPY SHOP PACKING SLIP
     function sendOrderViaWhatsApp(e) {
       e.preventDefault();
 
@@ -330,7 +355,8 @@
       const payment = document.getElementById("cust-payment").value;
 
       let itemsTotal = 0;
-      let orderItemsText = "";
+      let customerBillItems = "";
+      let shopkeeperPackingList = "";
       let count = 1;
 
       for (let id in cart) {
@@ -338,17 +364,22 @@
         const subtotal = item.price * cart[id];
         itemsTotal += subtotal;
         
-        // Structured Bill Receipt Format
-        orderItemsText += `${count}️⃣ *${item.name}* (${item.unit})\n   └─ ${cart[id]} x ₹${item.price} = *₹${subtotal}*\n\n`;
+        // Structured Bill for Customer
+        customerBillItems += `${count}️⃣ *${item.name}* (${item.unit})\n   └─ ${cart[id]} x ₹${item.price} = *₹${subtotal}*\n\n`;
+        
+        // Pure Packing Slip for Store (Zero Price/Margin)
+        shopkeeperPackingList += `▫️ ${item.name} (${item.unit}) — [ *${cart[id]} qty* ]\n`;
         count++;
       }
 
       const deliveryCharge = itemsTotal >= 200 ? 0 : 20;
       const grandTotal = itemsTotal + deliveryCharge;
       const deliveryStatus = deliveryCharge === 0 ? "FREE (₹200+ Offer)" : "₹20";
+      const token = Math.floor(100 + Math.random() * 900);
 
       const message = 
 `🛒 *NAYA ORDER - SocietyMart*
+Order ID: #SM-${flat}-${token}
 ━━━━━━━━━━━━━━━━━━━
 👤 *Customer:* ${name}
 📍 *Flat:* ${wing}, Flat No. ${flat}
@@ -357,19 +388,24 @@
 
 🧾 *BILL DETAILS:*
 ───────────────────
-${orderItemsText.trim()}
+${customerBillItems.trim()}
 ───────────────────
 Subtotal: ₹${itemsTotal}
 Delivery Fee: ${deliveryStatus}
 ━━━━━━━━━━━━━━━━━━━
 💰 *FINAL TOTAL: ₹${grandTotal}*
-━━━━━━━━━━━━━━━━━━━`;
+━━━━━━━━━━━━━━━━━━━
+
+👇 *(Store Forward Slip - Neeche ka text dukan wale ko bhejein)* 👇
+───────────────────
+📦 *PACKING SLIP (Token: #${token})*
+${shopkeeperPackingList}
+Kripya bag me pack karke rakhein. Pickup ladka aa raha hai.`;
 
       const whatsappURL = `https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(whatsappURL, "_blank");
     }
 
-    // Initial load
     renderProducts();
   </script>
 </body>
