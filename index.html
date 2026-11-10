@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apni Society Grocery Store</title>
+  <!-- Tailwind CSS CDN for modern mobile UI -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 text-gray-800 pb-24">
+
+  <!-- Header -->
+  <header class="bg-emerald-600 text-white p-4 sticky top-0 z-20 shadow-md">
+    <div class="max-w-md mx-auto flex justify-between items-center">
+      <div>
+        <h1 class="text-lg font-bold">Local Express Mart</h1>
+        <p class="text-xs text-emerald-100">15-30 Min Delivery • Flat tak delivery</p>
+      </div>
+      <div class="relative">
+        <button onclick="toggleModal(true)" class="p-2 bg-emerald-700 rounded-full text-white">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span id="cart-badge" class="absolute -top-1 -right-1 bg-amber-400 text-black font-bold text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Categories Bar -->
+  <div class="max-w-md mx-auto px-4 py-3 flex gap-2 overflow-x-auto no-scrollbar">
+    <button onclick="filterCategory('All')" class="cat-btn active bg-emerald-600 text-white px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap">Sabhi Items</button>
+    <button onclick="filterCategory('Dairy')" class="cat-btn bg-white text-gray-700 border px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap">Dairy & Bread</button>
+    <button onclick="filterCategory('AttaRice')" class="cat-btn bg-white text-gray-700 border px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap">Atta & Dal</button>
+    <button onclick="filterCategory('Snacks')" class="cat-btn bg-white text-gray-700 border px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap">Snacks & Tea</button>
+  </div>
+
+  <!-- Products Container -->
+  <main class="max-w-md mx-auto px-4">
+    <div id="product-list" class="grid grid-cols-2 gap-3">
+      <!-- Products render dynamically -->
+    </div>
+  </main>
+
+  <!-- Sticky Bottom Cart Bar -->
+  <div id="bottom-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t p-3 shadow-lg hidden z-10">
+    <div class="max-w-md mx-auto flex justify-between items-center">
+      <div>
+        <p class="text-xs text-gray-500"><span id="total-items">0</span> items</p>
+        <p class="text-lg font-bold text-emerald-700">₹<span id="total-price">0</span></p>
+      </div>
+      <button onclick="toggleModal(true)" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2">
+        View Cart & Order <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Checkout Drawer / Modal -->
+  <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden flex justify-center items-end sm:items-center">
+    <div class="bg-white w-full max-w-md rounded-t-2xl sm:rounded-2xl p-5 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-base font-bold">Aapka Order Summary</h2>
+        <button onclick="toggleModal(false)" class="text-gray-400 hover:text-gray-600 text-xl font-bold">&times;</button>
+      </div>
+
+      <!-- Items in cart -->
+      <div id="cart-items-summary" class="border-b pb-3 mb-4 space-y-2 text-sm">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Delivery Details Form -->
+      <form id="order-form" onsubmit="sendOrderViaWhatsApp(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-medium text-gray-700 mb-1">Aapka Naam *</label>
+          <input type="text" id="cust-name" required placeholder="eg. Rahul Sharma" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-emerald-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-gray-700 mb-1">Building / Society Ka Naam *</label>
+          <input type="text" id="cust-building" required placeholder="eg. Regency Park" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-emerald-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-xs font-medium text-gray-700 mb-1">Wing *</label>
+            <input type="text" id="cust-wing" required placeholder="eg. B-Wing" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-emerald-500">
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-gray-700 mb-1">Flat No. *</label>
+            <input type="text" id="cust-flat" required placeholder="eg. 402" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-emerald-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-gray-700 mb-1">Payment Method</label>
+          <select id="cust-payment" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-emerald-500">
+            <option value="UPI on Delivery (GPay / PhonePe / Paytm)">UPI on Delivery (QR Code)</option>
+            <option value="Cash on Delivery">Cash on Delivery (COD)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full mt-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 shadow-md">
+          <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Par Order Bhejein
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // 1. AAPKA WHATSAPP NUMBER (Bina '+' sign ke, 91 ke sath)
+    const STORE_WHATSAPP_NUMBER = "9960479334"; 
+
+    // 2. PRODUCT CATALOG DATA (Aap ise asaani se add/edit kar sakte hain)
+    const products = [
+      { id: 1, name: "Amul Taaza Milk", unit: "500 ml", price: 27, category: "Dairy", img: "https://placehold.co/150x120?text=Amul+Milk" },
+      { id: 2, name: "Amul Butter", unit: "100 g", price: 58, category: "Dairy", img: "https://placehold.co/150x120?text=Butter" },
+      { id: 3, name: "Brown / White Bread", unit: "1 Pack", price: 45, category: "Dairy", img: "https://placehold.co/150x120?text=Bread" },
+      { id: 4, name: "Aashirvaad Shudh Chakki Atta", unit: "5 kg", price: 245, category: "AttaRice", img: "https://placehold.co/150x120?text=Atta+5kg" },
+      { id: 5, name: "Fortune Sunlite Oil", unit: "1 Litre", price: 145, category: "AttaRice", img: "https://placehold.co/150x120?text=Oil+1L" },
+      { id: 6, name: "Tata Salt", unit: "1 kg", price: 28, category: "AttaRice", img: "https://placehold.co/150x120?text=Salt" },
+      { id: 7, name: "Wagh Bakri Chai", unit: "250 g", price: 135, category: "Snacks", img: "https://placehold.co/150x120?text=Tea" },
+      { id: 8, name: "Maggi 2-Minute Noodles", unit: "4-pack", price: 56, category: "Snacks", img: "https://placehold.co/150x120?text=Maggi" }
+    ];
+
+    let cart = {};
+
+    // Render Products
+    function renderProducts(category = "All") {
+      const container = document.getElementById("product-list");
+      container.innerHTML = "";
+
+      const filtered = category === "All" ? products : products.filter(p => p.category === category);
+
+      filtered.forEach(p => {
+        const qty = cart[p.id] || 0;
+        const card = document.createElement("div");
+        card.className = "bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <img src="${p.img}" alt="${p.name}" class="w-full h-24 object-cover rounded-lg mb-2">
+            <h3 class="font-bold text-sm text-gray-800 line-clamp-2 leading-tight">${p.name}</h3>
+            <p class="text-xs text-gray-500 mt-1">${p.unit}</p>
+          </div>
+          <div class="mt-3 flex items-center justify-between">
+            <span class="font-bold text-sm text-emerald-800">₹${p.price}</span>
+            <div id="btn-container-${p.id}">
+              ${qty === 0 ? 
+                `<button onclick="updateCart(${p.id}, 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-3 py-1 rounded-md text-xs font-bold hover:bg-emerald-100">+ Add</button>` :
+                `<div class="flex items-center gap-1 bg-emerald-600 text-white rounded-md px-2 py-0.5 text-xs font-bold">
+                  <button onclick="updateCart(${p.id}, -1)">-</button>
+                  <span class="px-1">${qty}</span>
+                  <button onclick="updateCart(${p.id}, 1)">+</button>
+                </div>`
+              }
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Update Cart
+    function updateCart(productId, change) {
+      cart[productId] = (cart[productId] || 0) + change;
+      if (cart[productId] <= 0) delete cart[productId];
+      
+      updateCartSummary();
+      renderProducts(currentCategory);
+    }
+
+    let currentCategory = "All";
+    function filterCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll(".cat-btn").forEach(b => {
+        b.classList.remove("bg-emerald-600", "text-white");
+        b.classList.add("bg-white", "text-gray-700");
+      });
+      event.target.classList.add("bg-emerald-600", "text-white");
+      event.target.classList.remove("bg-white", "text-gray-700");
+      renderProducts(cat);
+    }
+
+    // Update Totals and Bottom Bar
+    function updateCartSummary() {
+      let totalQty = 0;
+      let totalPrice = 0;
+
+      for (let id in cart) {
+        const item = products.find(p => p.id == id);
+        totalQty += cart[id];
+        totalPrice += item.price * cart[id];
+      }
+
+      document.getElementById("cart-badge").innerText = totalQty;
+      document.getElementById("total-items").innerText = totalQty;
+      document.getElementById("total-price").innerText = totalPrice;
+
+      const bottomBar = document.getElementById("bottom-bar");
+      const badge = document.getElementById("cart-badge");
+      
+      if (totalQty > 0) {
+        bottomBar.classList.remove("hidden");
+        badge.classList.remove("hidden");
+      } else {
+        bottomBar.classList.add("hidden");
+        badge.classList.add("hidden");
+        toggleModal(false);
+      }
+    }
+
+    // Modal Toggle
+    function toggleModal(show) {
+      const modal = document.getElementById("checkout-modal");
+      if (show) {
+        if (Object.keys(cart).length === 0) {
+          alert("Aapka cart khali hai. Pehle items add karein.");
+          return;
+        }
+        renderModalSummary();
+        modal.classList.remove("hidden");
+      } else {
+        modal.classList.add("hidden");
+      }
+    }
+
+    function renderModalSummary() {
+      const container = document.getElementById("cart-items-summary");
+      container.innerHTML = "";
+      let grandTotal = 0;
+
+      for (let id in cart) {
+        const item = products.find(p => p.id == id);
+        const subtotal = item.price * cart[id];
+        grandTotal += subtotal;
+
+        container.innerHTML += `
+          <div class="flex justify-between items-center text-xs">
+            <span>${item.name} (${cart[id]} x ₹${item.price})</span>
+            <span class="font-bold">₹${subtotal}</span>
+          </div>
+        `;
+      }
+      container.innerHTML += `
+        <div class="flex justify-between items-center text-sm font-bold pt-2 border-t mt-2">
+          <span>Kul Rashi (Total):</span>
+          <span class="text-emerald-700">₹${grandTotal}</span>
+        </div>
+      `;
+    }
+
+    // 3. WHATSAPP CHECKOUT LOGIC
+    function sendOrderViaWhatsApp(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("cust-name").value.trim();
+      const building = document.getElementById("cust-building").value.trim();
+      const wing = document.getElementById("cust-wing").value.trim();
+      const flat = document.getElementById("cust-flat").value.trim();
+      const payment = document.getElementById("cust-payment").value;
+
+      let totalAmount = 0;
+      let orderItemsText = "";
+
+      for (let id in cart) {
+        const item = products.find(p => p.id == id);
+        const subtotal = item.price * cart[id];
+        totalAmount += subtotal;
+        orderItemsText += `• ${item.name} (${item.unit}) x ${cart[id]} = ₹${subtotal}\n`;
+      }
+
+      // Clean WhatsApp Message Layout
+      const message = 
+`🛒 *NAYA GROCERY ORDER*
+━━━━━━━━━━━━━━
+👤 *Customer:* ${name}
+📍 *Pata:* ${wing}, Flat No. ${flat}, ${building}
+💳 *Payment:* ${payment}
+
+📦 *Ordered Items:*
+${orderItemsText}
+💰 *Total Amount:* ₹${totalAmount}
+━━━━━━━━━━━━━━
+Kripya order pack karke delivery time confirm karein.`;
+
+      const whatsappURL = `https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappURL, "_blank");
+    }
+
+    // Initial Load
+    renderProducts();
+  </script>
+</body>
+</html>
