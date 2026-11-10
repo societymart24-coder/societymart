@@ -319,7 +319,7 @@
       `;
     }
 
-    // 3. WHATSAPP CHECKOUT MESSAGE SCRIPT
+    // 3. WHATSAPP CHECKOUT MESSAGE SCRIPT (Structured Table Format)
     function sendOrderViaWhatsApp(e) {
       e.preventDefault();
 
@@ -331,34 +331,39 @@
 
       let itemsTotal = 0;
       let orderItemsText = "";
+      let count = 1;
 
       for (let id in cart) {
         const item = products.find(p => p.id == id);
         const subtotal = item.price * cart[id];
         itemsTotal += subtotal;
-        orderItemsText += `▫️ ${item.name} (${item.unit}) x ${cart[id]} = ₹${subtotal}\n`;
+        
+        // Structured Bill Receipt Format
+        orderItemsText += `${count}️⃣ *${item.name}* (${item.unit})\n   └─ ${cart[id]} x ₹${item.price} = *₹${subtotal}*\n\n`;
+        count++;
       }
 
       const deliveryCharge = itemsTotal >= 200 ? 0 : 20;
       const grandTotal = itemsTotal + deliveryCharge;
-      const deliveryStatus = deliveryCharge === 0 ? "FREE (₹200+ Offer applied)" : "₹20";
+      const deliveryStatus = deliveryCharge === 0 ? "FREE (₹200+ Offer)" : "₹20";
 
       const message = 
-`🛒 *NAYA SOCIETY ORDER - SocietyMart*
-━━━━━━━━━━━━━━━━━━
+`🛒 *NAYA ORDER - SocietyMart*
+━━━━━━━━━━━━━━━━━━━
 👤 *Customer:* ${name}
 📍 *Flat:* ${wing}, Flat No. ${flat}
 🏢 *Society:* ${building}
-💳 *Payment Mode:* ${payment}
+💳 *Payment:* ${payment}
 
-📦 *Samaan Ki List:*
-${orderItemsText}
+🧾 *BILL DETAILS:*
+───────────────────
+${orderItemsText.trim()}
+───────────────────
 Subtotal: ₹${itemsTotal}
-Delivery Charge: ${deliveryStatus}
-━━━━━━━━━━━━━━━━━━
-💰 *TOTAL AMOUNT: ₹${grandTotal}*
-━━━━━━━━━━━━━━━━━━
-Kripya order acknowledge karein aur delivery boy dispatch karein.`;
+Delivery Fee: ${deliveryStatus}
+━━━━━━━━━━━━━━━━━━━
+💰 *FINAL TOTAL: ₹${grandTotal}*
+━━━━━━━━━━━━━━━━━━━`;
 
       const whatsappURL = `https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(whatsappURL, "_blank");
