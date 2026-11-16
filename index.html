@@ -3,98 +3,157 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SocietyMart - Flat Tak Express Delivery</title>
+  <title>SocietyMart - 15 Min Flat Delivery</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes pulse-fast {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .animate-pulse-fast { animation: pulse-fast 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-800 pb-28">
+<body class="bg-gray-100 text-gray-800 pb-32">
 
-  <!-- Header -->
-  <header class="bg-emerald-700 text-white p-4 sticky top-0 z-20 shadow-md">
-    <div class="max-w-md mx-auto flex justify-between items-center">
-      <div>
-        <div class="flex items-center gap-1.5">
-          <span class="text-xl">🛒</span>
-          <h1 class="text-lg font-bold tracking-tight">SocietyMart</h1>
+  <!-- Flipkart Minutes Style Sticky Header + Search -->
+  <header class="bg-gradient-to-r from-emerald-800 to-emerald-700 text-white p-3.5 sticky top-0 z-20 shadow-lg">
+    <div class="max-w-md mx-auto">
+      <!-- Top Row: Brand, Live ETA & Cart -->
+      <div class="flex justify-between items-center mb-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-extrabold tracking-tight flex items-center gap-1">
+              <span>🛒</span> SocietyMart
+            </h1>
+            <span class="bg-amber-400 text-emerald-950 text-[10px] font-black px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
+              <i class="fa-solid fa-bolt animate-pulse-fast"></i> 15 MINS
+            </span>
+          </div>
+          <p class="text-[11px] text-emerald-100 mt-0.5">Flat ke darwaze tak superfast kirana delivery</p>
         </div>
-        <p class="text-xs text-emerald-100 mt-0.5">Bhari thele chhodo, kirana flat tak mangwao!</p>
+
+        <button onclick="toggleModal(true)" class="relative p-2.5 bg-emerald-900/80 hover:bg-emerald-950 border border-emerald-600/50 rounded-xl text-white transition">
+          <i class="fa-solid fa-bag-shopping text-base"></i>
+          <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-amber-400 text-black font-extrabold text-[10px] rounded-full h-5 w-5 flex items-center justify-center shadow hidden">0</span>
+        </button>
       </div>
-      <button onclick="toggleModal(true)" class="relative p-2.5 bg-emerald-800 hover:bg-emerald-900 rounded-full text-white transition">
-        <i class="fa-solid fa-cart-shopping text-sm"></i>
-        <span id="cart-badge" class="absolute -top-1 -right-1 bg-amber-400 text-black font-extrabold text-[10px] rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
-      </button>
+
+      <!-- Search Bar -->
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+        <input 
+          type="text" 
+          id="search-input" 
+          oninput="handleSearch()" 
+          placeholder='Search "Amul milk", "Atta", "Oil", "Maggi"...' 
+          class="w-full bg-white text-gray-800 placeholder-gray-400 text-xs rounded-xl pl-9 pr-9 py-2.5 shadow-inner focus:outline-none focus:ring-2 focus:ring-amber-400"
+        >
+        <button 
+          id="clear-search-btn" 
+          onclick="clearSearch()" 
+          class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 text-sm font-bold"
+        >
+          &times;
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Delivery Offer Strip -->
-  <div class="bg-amber-100 border-b border-amber-300 text-amber-950 px-4 py-2 text-xs font-semibold text-center flex items-center justify-center gap-1.5 shadow-sm">
-    <span>⚡</span>
-    <span><b>₹200+ par FREE Doorstep Delivery</b> | Below ₹200: sirf ₹20</span>
+  <!-- Free Delivery Offer Strip -->
+  <div class="bg-amber-100 border-b border-amber-300 text-amber-950 px-4 py-1.5 text-[11px] font-semibold text-center flex items-center justify-center gap-1.5">
+    <span>🎉</span>
+    <span><b>₹200+ par FREE Delivery</b> • Below ₹200: sirf ₹20 flat fee</span>
   </div>
 
-  <!-- Trust Badges -->
-  <div class="max-w-md mx-auto px-4 pt-3 flex items-center justify-between text-[11px] text-gray-600 font-medium">
-    <span><i class="fa-solid fa-bolt text-emerald-600 mr-1"></i> 15-20 Min Delivery</span>
-    <span><i class="fa-solid fa-shield-halved text-emerald-600 mr-1"></i> Dukan ke Asli Daam</span>
-    <span><i class="fa-solid fa-qrcode text-emerald-600 mr-1"></i> Pay on Delivery</span>
+  <!-- Quick Search Pills + Categories -->
+  <div class="max-w-md mx-auto px-4 pt-3 pb-2">
+    <div id="category-bar" class="flex gap-2 overflow-x-auto no-scrollbar">
+      <button onclick="filterCategory('All', this)" class="cat-btn active bg-emerald-700 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm">Sabhi Items</button>
+      <button onclick="filterCategory('Dairy', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Dairy & Bread</button>
+      <button onclick="filterCategory('AttaOil', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Atta, Dal & Tel</button>
+      <button onclick="filterCategory('Snacks', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Snacks & Drinks</button>
+      <button onclick="filterCategory('Daily', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Daily Essentials</button>
+    </div>
   </div>
 
-  <!-- Categories Bar -->
-  <div class="max-w-md mx-auto px-4 py-3 flex gap-2 overflow-x-auto no-scrollbar">
-    <button onclick="filterCategory('All', this)" class="cat-btn active bg-emerald-700 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm">Sabhi Items</button>
-    <button onclick="filterCategory('Dairy', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Dairy & Bread</button>
-    <button onclick="filterCategory('AttaOil', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Atta, Dal & Tel</button>
-    <button onclick="filterCategory('Snacks', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Snacks & Beverages</button>
-    <button onclick="filterCategory('Daily', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Daily Essentials</button>
+  <!-- Search Result Info Header -->
+  <div id="search-status" class="max-w-md mx-auto px-4 pb-2 hidden">
+    <p class="text-xs text-gray-600 font-medium">Search results for: <span id="search-term-display" class="font-bold text-emerald-800"></span></p>
   </div>
 
-  <!-- Products Container -->
+  <!-- Product Grid -->
   <main class="max-w-md mx-auto px-4">
     <div id="product-list" class="grid grid-cols-2 gap-3">
       <!-- Dynamic Products -->
     </div>
+
+    <!-- Custom Request Box (Shows when search has few/no results) -->
+    <div id="not-found-box" class="hidden mt-4 bg-white border border-dashed border-emerald-400 rounded-2xl p-5 text-center shadow-sm">
+      <div class="text-2xl mb-1">🔍</div>
+      <h3 class="text-sm font-bold text-gray-800">Ye item list me nahi mila?</h3>
+      <p class="text-xs text-gray-500 mt-1">Chinta mat karein! Kirana store par sab available hai. Seedha WhatsApp par naam bhej kar mangwayein.</p>
+      <button onclick="requestCustomItem()" class="mt-3 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl inline-flex items-center gap-2 shadow">
+        <i class="fa-brands fa-whatsapp text-sm"></i> "<span id="custom-item-label">Item</span>" WhatsApp Par Mangwayein
+      </button>
+    </div>
   </main>
 
-  <!-- Sticky Bottom Cart Bar -->
-  <div id="bottom-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 shadow-2xl hidden z-10">
-    <div class="max-w-md mx-auto flex justify-between items-center">
+  <!-- Flipkart Minutes Style Sticky Bottom Bar with Progress Bar -->
+  <div id="bottom-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] hidden z-10">
+    <!-- Mini Free Delivery Progress Bar -->
+    <div class="bg-emerald-50 px-4 py-1.5 border-b border-emerald-100">
+      <div class="max-w-md mx-auto">
+        <div class="flex justify-between items-center text-[10px] font-bold mb-1">
+          <span id="progress-text" class="text-emerald-900">₹200 par FREE delivery payein!</span>
+          <span id="progress-percent" class="text-emerald-700">0%</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+          <div id="progress-fill" class="bg-emerald-600 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Total & Action Button -->
+    <div class="max-w-md mx-auto p-3 flex justify-between items-center">
       <div>
-        <p class="text-xs text-gray-500 font-medium"><span id="total-items">0</span> items</p>
+        <p class="text-[11px] text-gray-500 font-semibold"><span id="total-items">0</span> Items added</p>
         <div class="flex items-baseline gap-1.5">
-          <p class="text-base font-extrabold text-emerald-800">₹<span id="bottom-total-price">0</span></p>
+          <p class="text-base font-black text-gray-900">₹<span id="bottom-total-price">0</span></p>
           <span id="delivery-tag" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">FREE DELIVERY</span>
         </div>
       </div>
-      <button onclick="toggleModal(true)" class="bg-emerald-700 hover:bg-emerald-800 text-white px-5 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 shadow-md transition">
-        View Cart & Order <i class="fa-solid fa-arrow-right"></i>
+      <button onclick="toggleModal(true)" class="bg-emerald-700 hover:bg-emerald-800 active:scale-95 text-white px-5 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 shadow-md transition">
+        View Cart <i class="fa-solid fa-caret-right"></i>
       </button>
     </div>
   </div>
 
-  <!-- Checkout Drawer / Modal -->
+  <!-- Checkout Modal -->
   <div id="checkout-modal" class="fixed inset-0 bg-black/60 z-30 hidden flex justify-center items-end sm:items-center p-0 sm:p-4 backdrop-blur-sm">
     <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-5 max-h-[94vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-3 pb-2 border-b">
         <div>
-          <h2 class="text-base font-bold text-gray-900">Aapka Order Summary</h2>
-          <p class="text-[11px] text-gray-500">Doorstep delivery details</p>
+          <div class="flex items-center gap-2">
+            <h2 class="text-base font-bold text-gray-900">Order Summary</h2>
+            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">⚡ 15 Min Delivery</span>
+          </div>
+          <p class="text-[11px] text-gray-500">Apna flat address verify karein</p>
         </div>
-        <button onclick="toggleModal(false)" class="text-gray-400 hover:text-gray-600 text-2xl font-bold leading-none p-1">&times;</button>
+        <button onclick="toggleModal(false)" class="text-gray-400 hover:text-gray-700 text-2xl font-bold leading-none p-1">&times;</button>
       </div>
 
-      <!-- Items in cart -->
+      <!-- Items in Cart -->
       <div id="cart-items-summary" class="border-b pb-3 mb-3 space-y-2">
-        <!-- Dynamic Summary -->
+        <!-- Dynamic Items -->
       </div>
 
-      <!-- High-Margin Impulse Upsell Section (Aapke Munafay Ke Liye) -->
-      <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-3 mb-4">
-        <p class="text-xs font-bold text-amber-900 mb-2 flex items-center gap-1">
-          <span>🍿</span> Sath me kuch namkeen ya drinks chahiye?
+      <!-- Impulse Upsell Booster -->
+      <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-3 mb-4">
+        <p class="text-xs font-bold text-amber-950 mb-2 flex items-center gap-1">
+          <span>🍿</span> Last-minute munchies add karein:
         </p>
         <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
           <div class="bg-white p-2 rounded-lg border border-gray-200 min-w-[130px] flex-shrink-0 flex items-center justify-between">
@@ -106,14 +165,14 @@
           </div>
           <div class="bg-white p-2 rounded-lg border border-gray-200 min-w-[130px] flex-shrink-0 flex items-center justify-between">
             <div>
-              <p class="text-[11px] font-bold text-gray-800">Coca Cola (Can)</p>
+              <p class="text-[11px] font-bold text-gray-800">Coca Cola Can</p>
               <p class="text-[10px] text-gray-500">₹40</p>
             </div>
             <button onclick="updateCart(11, 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-2 py-0.5 rounded text-[10px] font-bold hover:bg-emerald-100">+ Add</button>
           </div>
           <div class="bg-white p-2 rounded-lg border border-gray-200 min-w-[130px] flex-shrink-0 flex items-center justify-between">
             <div>
-              <p class="text-[11px] font-bold text-gray-800">Cadbury Dairy Milk</p>
+              <p class="text-[11px] font-bold text-gray-800">Dairy Milk</p>
               <p class="text-[10px] text-gray-500">₹20</p>
             </div>
             <button onclick="updateCart(12, 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-2 py-0.5 rounded text-[10px] font-bold hover:bg-emerald-100">+ Add</button>
@@ -121,7 +180,7 @@
         </div>
       </div>
 
-      <!-- Customer Form -->
+      <!-- Delivery Address Form (Auto-saved in browser) -->
       <form id="order-form" onsubmit="sendOrderViaWhatsApp(event)" class="space-y-3">
         <div>
           <label class="block text-xs font-semibold text-gray-700 mb-1">Aapka Naam *</label>
@@ -130,7 +189,7 @@
 
         <div>
           <label class="block text-xs font-semibold text-gray-700 mb-1">Building / Society Ka Naam *</label>
-          <input type="text" id="cust-building" required placeholder="eg. Motiram Lakeview / Regency" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          <input type="text" id="cust-building" required placeholder="eg. Motiram Lakeview" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
         </div>
 
         <div class="grid grid-cols-2 gap-2">
@@ -145,7 +204,7 @@
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-gray-700 mb-1">Payment Ka Tarika</label>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Payment Mode</label>
           <select id="cust-payment" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
             <option value="UPI on Delivery (GPay / PhonePe / Paytm)">UPI on Delivery (QR Code scan karein)</option>
             <option value="Cash on Delivery (COD)">Cash on Delivery (COD)</option>
@@ -153,58 +212,126 @@
         </div>
 
         <button type="submit" class="w-full mt-3 bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg transition text-xs">
-          <i class="fa-brands fa-whatsapp text-base"></i> WhatsApp Par Order Bhejein
+          <i class="fa-brands fa-whatsapp text-base"></i> Place Order on WhatsApp
         </button>
       </form>
     </div>
   </div>
 
   <script>
-    // 1. AAPKA WHATSAPP NUMBER (Bina '+' ke, 91 ke sath)
-    const STORE_WHATSAPP_NUMBER = "919960479334"; 
+    // 1. AAPKA WHATSAPP NUMBER (91 ke sath, bina '+' ke)
+    const STORE_WHATSAPP_NUMBER = "919876543210"; 
 
-    // 2. PRODUCT CATALOG (Fast moving + High-Margin items)
+    // 2. PRODUCT CATALOG (With MRP for Flipkart Minutes Discount Feel)
     const products = [
-      { id: 1, name: "Amul Taaza Toned Milk", unit: "500 ml", price: 27, category: "Dairy", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300&auto=format&fit=crop&q=60" },
-      { id: 2, name: "Amul Butter", unit: "100 g", price: 58, category: "Dairy", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=300&auto=format&fit=crop&q=60" },
-      { id: 3, name: "Fresh Bread (White/Brown)", unit: "1 Packet", price: 45, category: "Dairy", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&auto=format&fit=crop&q=60" },
-      { id: 4, name: "Aashirvaad Chakki Atta", unit: "5 kg", price: 245, category: "AttaOil", img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=60" },
-      { id: 5, name: "Fortune Sunlite Refined Oil", unit: "1 Litre", price: 140, category: "AttaOil", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&auto=format&fit=crop&q=60" },
-      { id: 6, name: "Tata Salt", unit: "1 kg", price: 28, category: "Daily", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300&auto=format&fit=crop&q=60" },
-      { id: 7, name: "Wagh Bakri Chai", unit: "250 g", price: 140, category: "Snacks", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300&auto=format&fit=crop&q=60" },
-      { id: 8, name: "Maggi Masala Noodles", unit: "Pack of 4", price: 56, category: "Snacks", img: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=300&auto=format&fit=crop&q=60" },
-      { id: 9, name: "Surf Excel Easy Wash", unit: "1 kg", price: 135, category: "Daily", img: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=300&auto=format&fit=crop&q=60" },
-      // High-Margin Add-ons
-      { id: 10, name: "Lays Classic Salted", unit: "1 Packet", price: 20, category: "Snacks", img: "https://placehold.co/150x120?text=Lays" },
-      { id: 11, name: "Coca Cola (Can)", unit: "300 ml", price: 40, category: "Snacks", img: "https://placehold.co/150x120?text=Coke" },
-      { id: 12, name: "Cadbury Dairy Milk", unit: "1 Bar", price: 20, category: "Snacks", img: "https://placehold.co/150x120?text=Dairy+Milk" }
+      { id: 1, name: "Amul Taaza Toned Milk", unit: "500 ml", mrp: 28, price: 27, category: "Dairy", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300&auto=format&fit=crop&q=60" },
+      { id: 2, name: "Amul Pasteurised Butter", unit: "100 g", mrp: 60, price: 58, category: "Dairy", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=300&auto=format&fit=crop&q=60" },
+      { id: 3, name: "Fresh Bread (White/Brown)", unit: "1 Packet", mrp: 45, price: 45, category: "Dairy", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&auto=format&fit=crop&q=60" },
+      { id: 4, name: "Aashirvaad Shudh Chakki Atta", unit: "5 kg", mrp: 265, price: 245, category: "AttaOil", img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=60" },
+      { id: 5, name: "Fortune Sunlite Refined Oil", unit: "1 Litre", mrp: 155, price: 140, category: "AttaOil", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&auto=format&fit=crop&q=60" },
+      { id: 6, name: "Tata Iodized Salt", unit: "1 kg", mrp: 30, price: 28, category: "Daily", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300&auto=format&fit=crop&q=60" },
+      { id: 7, name: "Wagh Bakri Premium Chai", unit: "250 g", mrp: 150, price: 140, category: "Snacks", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300&auto=format&fit=crop&q=60" },
+      { id: 8, name: "Maggi Masala Noodles", unit: "Pack of 4", mrp: 60, price: 56, category: "Snacks", img: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=300&auto=format&fit=crop&q=60" },
+      { id: 9, name: "Surf Excel Easy Wash", unit: "1 kg", mrp: 148, price: 135, category: "Daily", img: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=300&auto=format&fit=crop&q=60" },
+      { id: 10, name: "Lays Classic Salted Chips", unit: "1 Packet", mrp: 20, price: 20, category: "Snacks", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300&auto=format&fit=crop&q=60" },
+      { id: 11, name: "Coca Cola Soft Drink (Can)", unit: "300 ml", mrp: 40, price: 40, category: "Snacks", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=300&auto=format&fit=crop&q=60" },
+      { id: 12, name: "Cadbury Dairy Milk Chocolate", unit: "1 Bar", mrp: 20, price: 20, category: "Snacks", img: "https://images.unsplash.com/photo-1511381939415-e44015466834?w=300&auto=format&fit=crop&q=60" }
     ];
 
     let cart = {};
     let currentCategory = "All";
+    let searchQuery = "";
 
-    function renderProducts(category = "All") {
+    // Load saved customer address if available
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedUser = JSON.parse(localStorage.getItem("societymart_user") || "{}");
+      if (savedUser.name) document.getElementById("cust-name").value = savedUser.name;
+      if (savedUser.building) document.getElementById("cust-building").value = savedUser.building;
+      if (savedUser.wing) document.getElementById("cust-wing").value = savedUser.wing;
+      if (savedUser.flat) document.getElementById("cust-flat").value = savedUser.flat;
+      renderProducts();
+    });
+
+    // Live Search Handler
+    function handleSearch() {
+      const input = document.getElementById("search-input");
+      const clearBtn = document.getElementById("clear-search-btn");
+      const searchStatus = document.getElementById("search-status");
+      const searchTermDisplay = document.getElementById("search-term-display");
+
+      searchQuery = input.value.trim().toLowerCase();
+
+      if (searchQuery.length > 0) {
+        clearBtn.classList.remove("hidden");
+        searchStatus.classList.remove("hidden");
+        searchTermDisplay.innerText = `"${input.value.trim()}"`;
+      } else {
+        clearBtn.classList.add("hidden");
+        searchStatus.classList.add("hidden");
+      }
+
+      renderProducts();
+    }
+
+    function clearSearch() {
+      document.getElementById("search-input").value = "";
+      handleSearch();
+    }
+
+    // Render Products (Supports both Search & Category Filter)
+    function renderProducts() {
       const container = document.getElementById("product-list");
+      const notFoundBox = document.getElementById("not-found-box");
+      const customItemLabel = document.getElementById("custom-item-label");
       container.innerHTML = "";
 
-      const filtered = category === "All" ? products : products.filter(p => p.category === category);
+      let filtered = products;
+
+      if (searchQuery.length > 0) {
+        filtered = products.filter(p => 
+          p.name.toLowerCase().includes(searchQuery) || 
+          p.category.toLowerCase().includes(searchQuery) ||
+          p.unit.toLowerCase().includes(searchQuery)
+        );
+      } else if (currentCategory !== "All") {
+        filtered = products.filter(p => p.category === currentCategory);
+      }
+
+      // Show Custom Item Request Box if searching
+      if (searchQuery.length > 0 && filtered.length <= 1) {
+        notFoundBox.classList.remove("hidden");
+        customItemLabel.innerText = document.getElementById("search-input").value.trim();
+      } else {
+        notFoundBox.classList.add("hidden");
+      }
 
       filtered.forEach(p => {
         const qty = cart[p.id] || 0;
+        const discount = p.mrp > p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
+
         const card = document.createElement("div");
-        card.className = "bg-white p-3 rounded-2xl border border-gray-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between";
+        card.className = "bg-white p-2.5 rounded-2xl border border-gray-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between relative overflow-hidden";
         card.innerHTML = `
+          ${discount > 0 ? `<span class="absolute top-2 left-2 bg-emerald-600 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-md z-10 shadow-sm">${discount}% OFF</span>` : ''}
           <div>
-            <img src="${p.img}" alt="${p.name}" class="w-full h-24 object-cover rounded-xl mb-2 bg-gray-50">
+            <div class="relative">
+              <img src="${p.img}" alt="${p.name}" class="w-full h-24 object-cover rounded-xl mb-2 bg-gray-50">
+              <span class="absolute bottom-3 right-1.5 bg-white/90 backdrop-blur-xs text-gray-700 text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs flex items-center gap-0.5">
+                <i class="fa-solid fa-bolt text-amber-500"></i> 15m
+              </span>
+            </div>
             <h3 class="font-bold text-xs text-gray-800 line-clamp-2 leading-tight">${p.name}</h3>
             <p class="text-[11px] text-gray-500 mt-0.5">${p.unit}</p>
           </div>
-          <div class="mt-3 flex items-center justify-between pt-1 border-t border-gray-50">
-            <span class="font-extrabold text-sm text-emerald-900">₹${p.price}</span>
+          <div class="mt-2.5 flex items-center justify-between pt-1.5 border-t border-gray-100">
+            <div>
+              <span class="font-extrabold text-sm text-gray-900">₹${p.price}</span>
+              ${p.mrp > p.price ? `<span class="text-[10px] text-gray-400 line-through ml-1">₹${p.mrp}</span>` : ''}
+            </div>
             <div>
               ${qty === 0 ? 
-                `<button onclick="updateCart(${p.id}, 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-3 py-1 rounded-lg text-xs font-bold hover:bg-emerald-100 transition active:scale-95">+ Add</button>` :
-                `<div class="flex items-center gap-2 bg-emerald-700 text-white rounded-lg px-2 py-1 text-xs font-bold">
+                `<button onclick="updateCart(${p.id}, 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-3 py-1 rounded-lg text-xs font-extrabold hover:bg-emerald-100 transition active:scale-95">ADD</button>` :
+                `<div class="flex items-center gap-2 bg-emerald-700 text-white rounded-lg px-2 py-1 text-xs font-bold shadow-xs">
                   <button onclick="updateCart(${p.id}, -1)" class="px-1 text-sm font-black">-</button>
                   <span class="text-xs">${qty}</span>
                   <button onclick="updateCart(${p.id}, 1)" class="px-1 text-sm font-black">+</button>
@@ -222,18 +349,22 @@
       if (cart[productId] <= 0) delete cart[productId];
       
       updateCartSummary();
-      renderProducts(currentCategory);
+      renderProducts();
+      if (!document.getElementById("checkout-modal").classList.contains("hidden")) {
+        renderModalSummary();
+      }
     }
 
     function filterCategory(cat, element) {
       currentCategory = cat;
+      clearSearch();
       document.querySelectorAll(".cat-btn").forEach(b => {
         b.classList.remove("bg-emerald-700", "text-white", "shadow-sm");
         b.classList.add("bg-white", "text-gray-700", "border", "border-gray-300");
       });
       element.classList.remove("bg-white", "text-gray-700", "border", "border-gray-300");
       element.classList.add("bg-emerald-700", "text-white", "shadow-sm");
-      renderProducts(cat);
+      renderProducts();
     }
 
     function updateCartSummary() {
@@ -253,21 +384,30 @@
       document.getElementById("total-items").innerText = totalQty;
       document.getElementById("bottom-total-price").innerText = finalAmount;
 
+      // Update Progress Bar
+      const percent = Math.min(100, Math.round((itemsTotal / 200) * 100));
+      document.getElementById("progress-fill").style.width = `${percent}%`;
+      document.getElementById("progress-percent").innerText = `${percent}%`;
+
+      const progressText = document.getElementById("progress-text");
+      const deliveryTag = document.getElementById("delivery-tag");
+
+      if (itemsTotal >= 200) {
+        progressText.innerHTML = "🎉 <b>FREE Doorstep Delivery</b> Unlocked!";
+        deliveryTag.innerText = "FREE DELIVERY";
+        deliveryTag.className = "text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800";
+      } else {
+        progressText.innerHTML = `Add <b>₹${200 - itemsTotal}</b> more for <b>FREE Delivery</b>`;
+        deliveryTag.innerText = "+ ₹20 Delivery";
+        deliveryTag.className = "text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-900";
+      }
+
       const bottomBar = document.getElementById("bottom-bar");
       const badge = document.getElementById("cart-badge");
-      const deliveryTag = document.getElementById("delivery-tag");
       
       if (totalQty > 0) {
         bottomBar.classList.remove("hidden");
         badge.classList.remove("hidden");
-        
-        if (itemsTotal >= 200) {
-          deliveryTag.innerText = "FREE DELIVERY";
-          deliveryTag.className = "text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800";
-        } else {
-          deliveryTag.innerText = "+ ₹20 Delivery";
-          deliveryTag.className = "text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-900";
-        }
       } else {
         bottomBar.classList.add("hidden");
         badge.classList.add("hidden");
@@ -279,7 +419,7 @@
       const modal = document.getElementById("checkout-modal");
       if (show) {
         if (Object.keys(cart).length === 0) {
-          alert("Aapka cart khali hai. Kripya pehle items add karein.");
+          alert("Aapka cart khali hai. Pehle items add karein.");
           return;
         }
         renderModalSummary();
@@ -300,12 +440,19 @@
         itemsTotal += subtotal;
 
         container.innerHTML += `
-          <div class="flex justify-between items-center text-xs py-1 border-b border-gray-100">
+          <div class="flex justify-between items-center text-xs py-1.5 border-b border-gray-100">
             <div>
-              <span class="font-medium text-gray-800">${item.name}</span>
-              <p class="text-[10px] text-gray-400">${cart[id]} x ₹${item.price} (${item.unit})</p>
+              <span class="font-semibold text-gray-800">${item.name}</span>
+              <p class="text-[10px] text-gray-400">₹${item.price} (${item.unit})</p>
             </div>
-            <span class="font-bold text-gray-800">₹${subtotal}</span>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2 bg-gray-100 border border-gray-300 rounded-lg px-2 py-0.5 text-xs font-bold">
+                <button onclick="updateCart(${item.id}, -1)" class="text-emerald-700 font-black">-</button>
+                <span>${cart[id]}</span>
+                <button onclick="updateCart(${item.id}, 1)" class="text-emerald-700 font-black">+</button>
+              </div>
+              <span class="font-bold text-gray-900 w-10 text-right">₹${subtotal}</span>
+            </div>
           </div>
         `;
       }
@@ -317,11 +464,11 @@
       container.innerHTML += `
         <div class="pt-2 space-y-1.5 text-xs">
           <div class="flex justify-between items-center text-gray-600">
-            <span>Items Subtotal:</span>
+            <span>Items Total:</span>
             <span class="font-semibold">₹${itemsTotal}</span>
           </div>
           <div class="flex justify-between items-center">
-            <span>Doorstep Delivery:</span>
+            <span>Delivery Fee:</span>
             <span class="${deliveryCharge === 0 ? 'text-emerald-700 font-extrabold' : 'text-gray-800 font-bold'}">
               ${deliveryCharge === 0 ? 'FREE' : '₹20'}
             </span>
@@ -329,7 +476,7 @@
           ${itemsTotal < 200 ? `
             <div class="bg-amber-50 text-amber-900 border border-amber-200 p-2 rounded-lg text-[11px] flex items-center gap-1.5">
               <span>💡</span>
-              <span>Keval <b>₹${diffToFree}</b> ka aur samaan jodein aur payein <b>FREE Delivery</b>!</span>
+              <span>Sirf <b>₹${diffToFree}</b> ka aur saaman add karein aur <b>₹20 delivery fee bachayein!</b></span>
             </div>
           ` : `
             <div class="bg-emerald-50 text-emerald-800 border border-emerald-200 p-2 rounded-lg text-[11px] font-semibold text-center">
@@ -337,14 +484,24 @@
             </div>
           `}
           <div class="flex justify-between items-center text-sm font-black pt-2 border-t text-emerald-950">
-            <span>Total Payable:</span>
+            <span>To Pay:</span>
             <span class="text-emerald-800 text-base">₹${grandTotal}</span>
           </div>
         </div>
       `;
     }
 
-    // 3. WHATSAPP SCRIPT: CUSTOMER RECEIPT + READY-TO-COPY SHOP PACKING SLIP
+    // Custom Item Request via WhatsApp (When search yields missing item)
+    function requestCustomItem() {
+      const requestedItem = document.getElementById("search-input").value.trim();
+      const savedUser = JSON.parse(localStorage.getItem("societymart_user") || "{}");
+      const addressInfo = savedUser.flat ? `\n📍 *Address:* ${savedUser.wing}, Flat ${savedUser.flat}, ${savedUser.building}` : "";
+
+      const msg = `🛒 *CUSTOM ITEM REQUEST - SocietyMart*\n───────────────────\nMujhe ye item chahiye: *${requestedItem}*${addressInfo}\n\nKripya rate aur availability confirm karein.`;
+      window.open(`https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+    }
+
+    // 3. WHATSAPP ORDER + SHOPKEEPER PACKING SLIP
     function sendOrderViaWhatsApp(e) {
       e.preventDefault();
 
@@ -353,6 +510,9 @@
       const wing = document.getElementById("cust-wing").value.trim();
       const flat = document.getElementById("cust-flat").value.trim();
       const payment = document.getElementById("cust-payment").value;
+
+      // Save customer details in browser for next order
+      localStorage.setItem("societymart_user", JSON.stringify({ name, building, wing, flat }));
 
       let itemsTotal = 0;
       let customerBillItems = "";
@@ -364,10 +524,7 @@
         const subtotal = item.price * cart[id];
         itemsTotal += subtotal;
         
-        // Structured Bill for Customer
         customerBillItems += `${count}️⃣ *${item.name}* (${item.unit})\n   └─ ${cart[id]} x ₹${item.price} = *₹${subtotal}*\n\n`;
-        
-        // Pure Packing Slip for Store (Zero Price/Margin)
         shopkeeperPackingList += `▫️ ${item.name} (${item.unit}) — [ *${cart[id]} qty* ]\n`;
         count++;
       }
@@ -405,8 +562,6 @@ Kripya bag me pack karke rakhein. Pickup ladka aa raha hai.`;
       const whatsappURL = `https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(whatsappURL, "_blank");
     }
-
-    renderProducts();
   </script>
 </body>
 </html>
