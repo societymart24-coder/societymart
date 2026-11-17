@@ -24,7 +24,7 @@
       <div class="flex justify-between items-center mb-2.5">
         <div>
           <div class="flex items-center gap-1.5 flex-wrap">
-            <!-- Tapping title 4 times opens Secret Owner Mode -->
+            <!-- 4 Taps on Logo opens Secret Owner Dashboard -->
             <h1 id="brand-logo" onclick="handleSecretOwnerTap()" class="text-lg font-extrabold tracking-tight flex items-center gap-1 select-none cursor-pointer">
               <i class="fa-solid fa-basket-shopping text-amber-300"></i> SocietyMart
             </h1>
@@ -94,9 +94,7 @@
       <i class="fa-solid fa-spinner fa-spin mr-1 text-emerald-700"></i> Store items load ho rahe hain...
     </div>
 
-    <div id="product-list" class="grid grid-cols-2 gap-3">
-      <!-- Dynamic Products -->
-    </div>
+    <div id="product-list" class="grid grid-cols-2 gap-3"></div>
 
     <!-- Custom Request Box -->
     <div id="not-found-box" class="hidden mt-4 bg-white border border-dashed border-emerald-400 rounded-2xl p-5 text-center shadow-sm">
@@ -108,7 +106,7 @@
     </div>
   </main>
 
-  <!-- Sticky Bottom Bar with Free Delivery Progress -->
+  <!-- Sticky Bottom Bar -->
   <div id="bottom-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] hidden z-10">
     <div class="bg-emerald-50 px-4 py-1.5 border-b border-emerald-100">
       <div class="max-w-md mx-auto">
@@ -136,7 +134,7 @@
     </div>
   </div>
 
-  <!-- Pure Customer Checkout Modal (Zero Internal Business Details) -->
+  <!-- Pure Customer Checkout Modal -->
   <div id="checkout-modal" class="fixed inset-0 bg-black/60 z-30 hidden flex justify-center items-end sm:items-center p-0 sm:p-4 backdrop-blur-sm">
     <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-5 max-h-[94vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-3 pb-2 border-b">
@@ -150,18 +148,13 @@
         <button onclick="toggleModal(false)" class="text-gray-400 hover:text-gray-700 text-2xl font-bold leading-none p-1">&times;</button>
       </div>
 
-      <!-- Items in Cart -->
       <div id="cart-items-summary" class="border-b pb-3 mb-3 space-y-2"></div>
 
-      <!-- Dynamic Upsell Section -->
       <div id="upsell-box" class="bg-amber-50/80 border border-amber-200 rounded-xl p-3 mb-4 hidden">
-        <p class="text-xs font-bold text-amber-950 mb-2">
-          Chai-nashta ya munchies sath me jodein:
-        </p>
+        <p class="text-xs font-bold text-amber-950 mb-2">Chai-nashta ya munchies sath me jodein:</p>
         <div id="upsell-items" class="flex gap-2 overflow-x-auto no-scrollbar pb-1"></div>
       </div>
 
-      <!-- Delivery Address Form -->
       <form id="order-form" onsubmit="sendOrderViaWhatsApp(event)" class="space-y-3">
         <div>
           <label class="block text-xs font-semibold text-gray-700 mb-1">Aapka Naam *</label>
@@ -196,7 +189,6 @@
           <i class="fa-brands fa-whatsapp text-base"></i> Place Order on WhatsApp
         </button>
 
-        <!-- Customer Confirmation Note -->
         <div id="order-placed-note" class="hidden mt-3 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-xl p-3 text-center text-xs">
           <p class="font-bold">WhatsApp par aapka order message taiyar hai!</p>
           <p class="text-[11px] text-emerald-700 mt-0.5">WhatsApp me <b>Send</b> dabate hi aapka order confirm ho jayega.</p>
@@ -205,24 +197,150 @@
     </div>
   </div>
 
-  <!-- SECRET OWNER-ONLY MODAL (Hidden from Customers — Open via ?owner=1 or 4 taps on logo) -->
-  <div id="owner-modal" class="fixed inset-0 bg-black/75 z-40 hidden flex justify-center items-center p-4 backdrop-blur-xs">
-    <div class="bg-white w-full max-w-md rounded-2xl p-5 shadow-2xl">
-      <div class="flex justify-between items-center border-b pb-2 mb-3">
+  <!-- ===================================================================== -->
+  <!-- SECRET OWNER ANALYTICS & OPERATIONS DASHBOARD (Hidden from Customers) -->
+  <!-- ===================================================================== -->
+  <div id="owner-modal" class="fixed inset-0 bg-black/80 z-40 hidden flex justify-center items-end sm:items-center p-0 sm:p-4 backdrop-blur-xs">
+    <div class="bg-gray-50 w-full max-w-lg rounded-t-3xl sm:rounded-2xl max-h-[94vh] flex flex-col shadow-2xl overflow-hidden">
+      
+      <!-- Owner Header -->
+      <div class="bg-gray-900 text-white p-4 flex justify-between items-center">
         <div>
-          <span class="bg-gray-900 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded">OWNER PRIVATE TOOL</span>
-          <h3 class="text-sm font-extrabold text-gray-900 mt-1">Dukan Wale Ka Packing Slip Banayein</h3>
+          <div class="flex items-center gap-2">
+            <span class="bg-amber-400 text-black text-[10px] font-black px-2 py-0.5 rounded">OWNER HUB</span>
+            <h3 class="text-sm font-extrabold">SocietyMart Business Analytics</h3>
+          </div>
+          <p class="text-[11px] text-gray-400 mt-0.5">Private Store Intelligence & Packing Slip Tool</p>
         </div>
-        <button onclick="document.getElementById('owner-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-700 text-2xl font-bold">&times;</button>
+        <button onclick="document.getElementById('owner-modal').classList.add('hidden')" class="text-gray-400 hover:text-white text-2xl font-bold leading-none">&times;</button>
       </div>
 
-      <p class="text-[11px] text-gray-600 mb-2">Customer ka WhatsApp order message neeche paste karein—system apne aap rates aur address hata kar sirf items ki slip bana dega:</p>
-      
-      <textarea id="raw-order-paste" rows="4" placeholder="Customer ka WhatsApp message yahan paste karein..." class="w-full border border-gray-300 rounded-xl p-2.5 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none"></textarea>
+      <!-- Owner Navigation Tabs -->
+      <div class="bg-white border-b border-gray-200 px-3 pt-2 flex gap-1.5 overflow-x-auto no-scrollbar">
+        <button onclick="switchOwnerTab('ops', this)" class="owner-tab-btn bg-emerald-700 text-white px-3 py-1.5 rounded-t-lg text-xs font-bold whitespace-nowrap">
+          <i class="fa-solid fa-receipt mr-1"></i> Slip & Log Order
+        </button>
+        <button onclick="switchOwnerTab('analytics', this)" class="owner-tab-btn bg-gray-100 text-gray-700 px-3 py-1.5 rounded-t-lg text-xs font-bold whitespace-nowrap">
+          <i class="fa-solid fa-chart-line mr-1"></i> Sales & VIP Customers
+        </button>
+        <button onclick="switchOwnerTab('demand', this)" class="owner-tab-btn bg-gray-100 text-gray-700 px-3 py-1.5 rounded-t-lg text-xs font-bold whitespace-nowrap">
+          <i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Missed Searches
+        </button>
+      </div>
 
-      <button type="button" onclick="generateAndForwardShopSlip()" class="w-full mt-3 bg-gray-900 hover:bg-black text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow">
-        <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i> Convert & Send Slip to Shopkeeper
-      </button>
+      <!-- Owner Body Content -->
+      <div class="p-4 overflow-y-auto space-y-4 flex-1">
+
+        <!-- TAB 1: DAILY OPERATIONS (Slip Forwarder + Auto Order Logger) -->
+        <div id="owner-tab-ops" class="space-y-3">
+          <div class="bg-white p-3.5 rounded-xl border border-gray-200 shadow-2xs">
+            <label class="block text-xs font-bold text-gray-800 mb-1">Customer WhatsApp Message Paste Karein:</label>
+            <p class="text-[11px] text-gray-500 mb-2">Ye message se customer details & rates hata kar dukan wale ko slip bhejega aur aapke Analytics me order save kar lega.</p>
+            <textarea id="raw-order-paste" rows="5" placeholder="Customer ka WhatsApp order message (ya custom request) yahan paste karein..." class="w-full border border-gray-300 rounded-xl p-2.5 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none"></textarea>
+            
+            <div class="grid grid-cols-2 gap-2 mt-2.5">
+              <button type="button" onclick="processOrderPaste(true)" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
+                <i class="fa-brands fa-whatsapp text-sm"></i> Save & Send Slip
+              </button>
+              <button type="button" onclick="processOrderPaste(false)" class="bg-gray-800 hover:bg-black text-white font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow">
+                <i class="fa-solid fa-database text-amber-400"></i> Sirf Analytics Save
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent Logged Orders -->
+          <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+            <div class="flex justify-between items-center mb-2">
+              <h4 class="text-xs font-extrabold text-gray-800">Recent Recorded Orders</h4>
+              <span id="recent-orders-count" class="text-[10px] font-bold bg-gray-100 px-2 py-0.5 rounded text-gray-600">0 orders</span>
+            </div>
+            <div id="recent-orders-list" class="space-y-2 max-h-48 overflow-y-auto text-xs">
+              <p class="text-gray-400 text-[11px]">Abhi tak koi order record nahi hua hai.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: FULL BUSINESS ANALYTICS -->
+        <div id="owner-tab-analytics" class="hidden space-y-4">
+          <!-- KPI Cards -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <div class="bg-white p-3 rounded-xl border border-gray-200">
+              <p class="text-[10px] font-bold text-gray-400 uppercase">Total Revenue</p>
+              <p id="kpi-revenue" class="text-lg font-black text-emerald-700 mt-0.5">₹0</p>
+              <p id="kpi-aov" class="text-[10px] text-gray-500 mt-0.5">Avg Order: ₹0</p>
+            </div>
+            <div class="bg-white p-3 rounded-xl border border-gray-200">
+              <p class="text-[10px] font-bold text-gray-400 uppercase">Total Orders</p>
+              <p id="kpi-orders" class="text-lg font-black text-gray-900 mt-0.5">0</p>
+              <p id="kpi-delivery-split" class="text-[10px] text-gray-500 mt-0.5">Free: 0 | ₹20 Fee: 0</p>
+            </div>
+          </div>
+
+          <!-- 1. Most Demanding Products -->
+          <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+            <h4 class="text-xs font-extrabold text-gray-900 mb-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-fire text-orange-500"></i> Most Demanding Products (Top Sellers)
+            </h4>
+            <div id="analytics-top-products" class="space-y-2 text-xs">
+              <p class="text-gray-400 text-[11px]">Orders record hone par top items yahan dikhenge.</p>
+            </div>
+          </div>
+
+          <!-- 2. VIP Customers (High to Low Orders) -->
+          <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+            <h4 class="text-xs font-extrabold text-gray-900 mb-2 flex items-center gap-1.5">
+              <i class="fa-solid fa-crown text-amber-500"></i> Customers Ranking (Most Orders to Low)
+            </h4>
+            <div id="analytics-top-customers" class="space-y-2 text-xs">
+              <p class="text-gray-400 text-[11px]">Abhi koi customer history nahi hai.</p>
+            </div>
+          </div>
+
+          <!-- 3. Society / Wing & Time Insights -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+              <h4 class="text-xs font-extrabold text-gray-900 mb-2">Society / Wing Demand</h4>
+              <div id="analytics-wings" class="space-y-1.5 text-xs">
+                <p class="text-gray-400 text-[11px]">No data</p>
+              </div>
+            </div>
+            <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+              <h4 class="text-xs font-extrabold text-gray-900 mb-2">Peak Time & Payment</h4>
+              <div id="analytics-time-pay" class="space-y-1.5 text-xs">
+                <p class="text-gray-400 text-[11px]">No data</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Export & Reset Controls -->
+          <div class="flex gap-2 pt-1">
+            <button type="button" onclick="exportAnalyticsCSV()" class="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl text-xs shadow">
+              <i class="fa-solid fa-file-csv mr-1"></i> Download Excel (CSV)
+            </button>
+            <button type="button" onclick="clearAllAnalytics()" class="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 font-bold py-2.5 px-3 rounded-xl text-xs">
+              Reset Data
+            </button>
+          </div>
+        </div>
+
+        <!-- TAB 3: SEARCHED BUT NOT AVAILABLE -->
+        <div id="owner-tab-demand" class="hidden space-y-3">
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-[11px] text-amber-950">
+            <b>New Stock Idea:</b> Neeche wo items dikhenge jo search kiye gaye par catalog me nahi mile. Inhe apni Google Sheet me add karke sales badhayein.
+          </div>
+
+          <div class="bg-white p-3.5 rounded-xl border border-gray-200">
+            <div class="flex justify-between items-center mb-2">
+              <h4 class="text-xs font-extrabold text-gray-900">Searched But Not Available</h4>
+              <button type="button" onclick="clearMissedSearches()" class="text-[10px] text-red-600 font-bold hover:underline">Clear List</button>
+            </div>
+            <div id="analytics-missed-searches" class="space-y-2 text-xs">
+              <p class="text-gray-400 text-[11px]">Abhi tak koi missed search record nahi hui hai.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
@@ -235,15 +353,12 @@
 
     // 3. INDIVIDUAL PRODUCT-SPECIFIC IMAGE LIBRARY
     const SMART_IMAGE_MAP = [
-      // Specific Fruits
       { keywords: ["apple", "seb"], url: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["banana", "kela", "kele"], url: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["mango", "aam", "hapus", "alphonso"], url: "https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["orange", "santra", "mosambi"], url: "https://images.unsplash.com/photo-1547514701-42782101795e?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["grapes", "angoor"], url: "https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["pomegranate", "anar", "dalimb"], url: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400&auto=format&fit=crop&q=80" },
-
-      // Specific Vegetables
       { keywords: ["onion", "kanda", "pyaz"], url: "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["potato", "batata", "aloo"], url: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["tomato", "tamatar"], url: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400&auto=format&fit=crop&q=80" },
@@ -251,23 +366,17 @@
       { keywords: ["chilli", "mirchi"], url: "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["ginger", "adrak", "garlic", "lasun"], url: "https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["sabzi", "veg", "bhaji"], url: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&auto=format&fit=crop&q=80" },
-
-      // Atta, Flour, Rice & Dal
       { keywords: ["atta", "aata", "aashirvaad", "chakki", "flour", "maida", "besan", "rava", "sooji", "poha"], url: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["rice", "chawal", "kolam", "basmati", "indrayani"], url: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["dal", "daal", "toor", "moong", "chana", "rajma", "pulse"], url: "https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["oil", "tel", "fortune", "sunlite", "sunflower", "ghee"], url: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["salt", "namak", "sugar", "shakkar"], url: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=400&auto=format&fit=crop&q=80" },
-
-      // Dairy & Bread
       { keywords: ["milk", "doodh", "taaza", "gokul", "amul milk"], url: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["butter", "makkhan"], url: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["paneer", "cheese"], url: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["dahi", "curd", "yogurt", "shrikhand"], url: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["bread", "pav", "bun"], url: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["egg", "anda", "ande"], url: "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=400&auto=format&fit=crop&q=80" },
-
-      // Bakery, Snacks & Drinks
       { keywords: ["khari", "toast", "rusk", "puff", "bakery"], url: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["cake", "pastry", "muffin", "donut"], url: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["samosa", "kachori", "dhokla", "vada"], url: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&auto=format&fit=crop&q=80" },
@@ -277,13 +386,9 @@
       { keywords: ["maggi", "noodles", "pasta", "yippee"], url: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["coke", "coca", "pepsi", "sprite", "thums", "drink", "juice", "cold"], url: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["chocolate", "dairy milk", "cadbury", "kitkat"], url: "https://images.unsplash.com/photo-1511381939415-e44015466834?w=400&auto=format&fit=crop&q=80" },
-
-      // Medical, Vicks/Vix & Personal Care
       { keywords: ["vix", "vicks", "balm", "zandu", "iodex", "moov", "volini", "pain", "spray", "inhaler"], url: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["diaper", "pampers", "mamy", "wipes", "baby"], url: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["pad", "sanitary", "whisper", "stayfree", "ors", "bandaid", "dettol", "savlon", "medical", "medicine", "cotton"], url: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&auto=format&fit=crop&q=80" },
-
-      // Household & Dry Fruits
       { keywords: ["surf", "detergent", "soap", "sabun", "rin", "tide", "vim", "liquid"], url: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["kaju", "badam", "cashew", "almond", "kishmish", "dry fruit"], url: "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["masala", "haldi", "jeera", "turmeric", "spice"], url: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&auto=format&fit=crop&q=80" }
@@ -302,29 +407,19 @@
 
     function resolveProductImage(rawUrl, productName) {
       let cleanUrl = (rawUrl || "").trim();
-
       if (cleanUrl.includes("drive.google.com")) {
         const match = cleanUrl.match(/\/d\/([a-zA-Z0-9_-]+)/) || cleanUrl.match(/id=([a-zA-Z0-9_-]+)/);
-        if (match && match[1]) {
-          return `https://lh3.googleusercontent.com/d/${match[1]}`;
-        }
+        if (match && match[1]) return `https://lh3.googleusercontent.com/d/${match[1]}`;
       }
-
-      if (cleanUrl.startsWith("http://") || cleanUrl.startsWith("https://")) {
-        return cleanUrl;
-      }
+      if (cleanUrl.startsWith("http://") || cleanUrl.startsWith("https://")) return cleanUrl;
 
       const lowerName = (productName || "").toLowerCase();
       for (const item of SMART_IMAGE_MAP) {
-        if (item.keywords.some(k => lowerName.includes(k))) {
-          return item.url;
-        }
+        if (item.keywords.some(k => lowerName.includes(k))) return item.url;
       }
-
       return getCleanSvgFallback(productName);
     }
 
-    // Backup Default Products
     let products = [
       { id: "1", name: "Amul Taaza Toned Milk", unit: "500 ml", mrp: 28, price: 27, category: "Dairy", inStock: true, img: resolveProductImage("", "Amul Taaza Milk") },
       { id: "2", name: "Fresh Shimla Apple", unit: "500 g", mrp: 110, price: 95, category: "Sabzi", inStock: true, img: resolveProductImage("", "Fresh Shimla Apple") },
@@ -339,23 +434,29 @@
     let cart = {};
     let currentCategory = "All";
     let searchQuery = "";
+    let searchLogTimer = null;
     let logoTapCount = 0;
     let logoTapTimer = null;
 
-    // Secret Owner Trigger (4 taps on logo OR ?owner=1 in URL)
+    // Secret Owner Trigger (4 taps on logo OR ?owner=1)
     function handleSecretOwnerTap() {
       logoTapCount++;
       clearTimeout(logoTapTimer);
       logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1500);
       if (logoTapCount >= 4) {
         logoTapCount = 0;
-        document.getElementById("owner-modal").classList.remove("hidden");
+        openOwnerDashboard();
       }
+    }
+
+    function openOwnerDashboard() {
+      renderOwnerAnalytics();
+      document.getElementById("owner-modal").classList.remove("hidden");
     }
 
     window.addEventListener("DOMContentLoaded", async () => {
       if (window.location.search.includes("owner=1")) {
-        document.getElementById("owner-modal").classList.remove("hidden");
+        openOwnerDashboard();
       }
 
       const savedUser = JSON.parse(localStorage.getItem("societymart_user") || "{}");
@@ -442,6 +543,19 @@
       return result;
     }
 
+    // Track Missed Search Queries (Debounced so partial typing isn't logged)
+    function logMissedSearch(term) {
+      const clean = (term || "").trim().toLowerCase();
+      if (clean.length < 3) return;
+      const missed = JSON.parse(localStorage.getItem("sm_missed_searches") || "{}");
+      if (!missed[clean]) {
+        missed[clean] = { term: term.trim(), count: 0, lastAt: "" };
+      }
+      missed[clean].count += 1;
+      missed[clean].lastAt = new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+      localStorage.setItem("sm_missed_searches", JSON.stringify(missed));
+    }
+
     function handleSearch() {
       const input = document.getElementById("search-input");
       const clearBtn = document.getElementById("clear-search-btn");
@@ -459,7 +573,12 @@
         searchStatus.classList.add("hidden");
       }
 
-      renderProducts();
+      const matchCount = renderProducts();
+
+      clearTimeout(searchLogTimer);
+      if (searchQuery.length >= 3 && matchCount === 0) {
+        searchLogTimer = setTimeout(() => logMissedSearch(input.value.trim()), 1200);
+      }
     }
 
     function clearSearch() {
@@ -557,6 +676,8 @@
         `;
         container.appendChild(card);
       });
+
+      return filtered.length;
     }
 
     function updateCart(productId, change) {
@@ -732,6 +853,7 @@
 
     function requestCustomItem() {
       const requestedItem = document.getElementById("search-input").value.trim();
+      logMissedSearch(requestedItem);
       const savedUser = JSON.parse(localStorage.getItem("societymart_user") || "{}");
       const addressInfo = savedUser.flat ? `\n*Address:* ${savedUser.wing}, Flat ${savedUser.flat}, ${savedUser.building}` : "";
 
@@ -749,7 +871,18 @@
       return str.length >= len ? str : " ".repeat(len - str.length) + str;
     }
 
-    // PURE CUSTOMER WHATSAPP MESSAGE (No Store Slip / No Internal Details)
+    // Save Order to Analytics Storage (Deduplicated by Order ID)
+    function saveOrderRecord(orderObj) {
+      const orders = JSON.parse(localStorage.getItem("sm_orders_log") || "[]");
+      const existingIndex = orders.findIndex(o => o.orderId === orderObj.orderId);
+      if (existingIndex >= 0) {
+        orders[existingIndex] = orderObj;
+      } else {
+        orders.unshift(orderObj);
+      }
+      localStorage.setItem("sm_orders_log", JSON.stringify(orders));
+    }
+
     function sendOrderViaWhatsApp(e) {
       e.preventDefault();
 
@@ -763,6 +896,7 @@
 
       let itemsTotal = 0;
       let tableRows = "";
+      const orderedItems = [];
 
       for (let id in cart) {
         const item = products.find(p => String(p.id) === String(id));
@@ -770,36 +904,54 @@
         const subtotal = item.price * cart[id];
         itemsTotal += subtotal;
         
-        // Include unit clearly for both customer & owner clarity
         const itemLabel = `${item.name} (${item.unit})`;
-        const colItem = padRight(itemLabel, 18);
+        const colItem = padRight(itemLabel, 20);
         const colQty  = padLeft(`x${cart[id]}`, 4);
         const colAmt  = padLeft(`₹${subtotal}`, 7);
         tableRows += `${colItem}${colQty}${colAmt}\n`;
+
+        orderedItems.push({ name: itemLabel, qty: cart[id], amount: subtotal });
       }
 
       const deliveryCharge = itemsTotal >= 200 ? 0 : 20;
       const grandTotal = itemsTotal + deliveryCharge;
       const deliveryLabel = deliveryCharge === 0 ? "FREE" : "₹20";
       const token = Math.floor(100 + Math.random() * 900);
+      const orderId = `#SM-${flat}-${token}`;
+
+      // Auto-record in local analytics
+      saveOrderRecord({
+        orderId,
+        customer: name,
+        building,
+        wing,
+        flat,
+        payment: payment.includes("UPI") ? "UPI" : "COD",
+        items: orderedItems,
+        subtotal: itemsTotal,
+        deliveryFee: deliveryCharge,
+        total: grandTotal,
+        hour: new Date().getHours(),
+        date: new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+      });
 
       const billTable = 
 "```" + `\n` +
-`Item              Qty     Amt\n` +
-`-----------------------------\n` +
+`Item                Qty     Amt\n` +
+`-------------------------------\n` +
 `${tableRows}` +
-`-----------------------------\n` +
-`${padRight("Subtotal", 21)}${padLeft("₹" + itemsTotal, 8)}\n` +
-`${padRight("Taxes & Packing", 21)}${padLeft("₹0", 8)}\n` +
-`${padRight("Delivery Fee", 21)}${padLeft(deliveryLabel, 8)}\n` +
-`=============================\n` +
-`${padRight("FINAL TOTAL", 21)}${padLeft("₹" + grandTotal, 8)}\n` +
+`-------------------------------\n` +
+`${padRight("Subtotal", 23)}${padLeft("₹" + itemsTotal, 8)}\n` +
+`${padRight("Taxes & Packing", 23)}${padLeft("₹0", 8)}\n` +
+`${padRight("Delivery Fee", 23)}${padLeft(deliveryLabel, 8)}\n` +
+`===============================\n` +
+`${padRight("FINAL TOTAL", 23)}${padLeft("₹" + grandTotal, 8)}\n` +
 "```";
 
       const message = 
 `*NAYA ORDER - SocietyMart*
-Order ID: #SM-${flat}-${token}
-=============================
+Order ID: ${orderId}
+===============================
 *Customer:* ${name}
 *Flat:* ${wing}, Flat No. ${flat}
 *Society:* ${building}
@@ -816,42 +968,310 @@ Kripya order confirm karein.`;
       window.open(whatsappURL, "_blank");
     }
 
-    // SECRET OWNER CONVERTER: Strips prices & customer details, creates clean Shopkeeper Slip
-    function generateAndForwardShopSlip() {
+    // =====================================================================
+    // OWNER DASHBOARD LOGIC (Tabs, Parser, Analytics, CSV Export)
+    // =====================================================================
+    function switchOwnerTab(tabName, btnEl) {
+      ["ops", "analytics", "demand"].forEach(t => {
+        document.getElementById(`owner-tab-${t}`).classList.add("hidden");
+      });
+      document.getElementById(`owner-tab-${tabName}`).classList.remove("hidden");
+
+      document.querySelectorAll(".owner-tab-btn").forEach(b => {
+        b.classList.remove("bg-emerald-700", "text-white");
+        b.classList.add("bg-gray-100", "text-gray-700");
+      });
+      btnEl.classList.remove("bg-gray-100", "text-gray-700");
+      btnEl.classList.add("bg-emerald-700", "text-white");
+
+      renderOwnerAnalytics();
+    }
+
+    // Parse Pasted WhatsApp Message -> Save to Analytics + Send Price-Free Slip to Shopkeeper
+    function processOrderPaste(forwardToShop) {
       const rawText = document.getElementById("raw-order-paste").value.trim();
       if (!rawText) {
-        alert("Pehle customer ka WhatsApp order message paste karein.");
+        alert("Pehle customer ka WhatsApp message paste karein.");
         return;
       }
 
-      const tokenMatch = rawText.match(/Order ID:\s*#SM-[^-]+-(\d+)/i);
-      const token = tokenMatch ? tokenMatch[1] : Math.floor(100 + Math.random() * 900);
-
-      const lines = rawText.split("\n");
-      const cleanItems = [];
-
-      for (const line of lines) {
-        // Matches table rows like: "Amul Milk (500 m.  x1    ₹27"
-        const rowMatch = line.match(/^(.+?)\s+x(\d+)\s+₹\d+/i);
-        if (rowMatch) {
-          const itemName = rowMatch[1].trim();
-          const qty = rowMatch[2].trim();
-          cleanItems.push(`- ${itemName} : ${qty} qty`);
+      // Check if it's a Custom Item Request
+      if (rawText.includes("CUSTOM ITEM REQUEST")) {
+        const reqMatch = rawText.match(/chahiye:\s*\*(.+?)\*/i);
+        if (reqMatch && reqMatch[1]) {
+          logMissedSearch(reqMatch[1]);
+          alert(`"${reqMatch[1]}" ko Missed Searches list me add kar diya gaya hai!`);
+          document.getElementById("raw-order-paste").value = "";
+          renderOwnerAnalytics();
+          return;
         }
       }
 
-      const itemsBlock = cleanItems.length > 0 
-        ? cleanItems.join("\n") 
-        : rawText;
+      const idMatch = rawText.match(/Order ID:\s*(#SM-[^\s\n]+)/i);
+      const orderId = idMatch ? idMatch[1].trim() : `#SM-${Math.floor(100 + Math.random() * 900)}`;
+      const token = orderId.split("-").pop();
 
-      const shopSlip = 
+      const custMatch = rawText.match(/\*Customer:\*\s*(.+)/i);
+      const flatMatch = rawText.match(/\*Flat:\*\s*(.+?),\s*Flat No\.\s*(.+)/i);
+      const socMatch  = rawText.match(/\*Society:\*\s*(.+)/i);
+      const payMatch  = rawText.match(/\*Payment:\*\s*(.+)/i);
+      const delMatch  = rawText.match(/Delivery Fee\s+(FREE|₹\d+)/i);
+      const totMatch  = rawText.match(/FINAL TOTAL\s+₹(\d+)/i);
+
+      const customer = custMatch ? custMatch[1].trim() : "Walk-in / Customer";
+      const wing = flatMatch ? flatMatch[1].trim() : "-";
+      const flat = flatMatch ? flatMatch[2].trim() : "-";
+      const building = socMatch ? socMatch[1].trim() : "Society";
+      const payment = payMatch && payMatch[1].includes("UPI") ? "UPI" : "COD";
+      const deliveryFee = delMatch && delMatch[1].includes("20") ? 20 : 0;
+
+      const lines = rawText.split("\n");
+      const parsedItems = [];
+      const slipLines = [];
+      let calcSubtotal = 0;
+
+      for (const line of lines) {
+        const rowMatch = line.match(/^(.+?)\s+x(\d+)\s+₹(\d+)/i);
+        if (rowMatch) {
+          const itemName = rowMatch[1].trim();
+          const qty = parseInt(rowMatch[2], 10) || 1;
+          const amount = parseInt(rowMatch[3], 10) || 0;
+          calcSubtotal += amount;
+          parsedItems.push({ name: itemName, qty, amount });
+          slipLines.push(`- ${itemName} : ${qty} qty`);
+        }
+      }
+
+      const total = totMatch ? parseInt(totMatch[1], 10) : (calcSubtotal + deliveryFee);
+
+      if (parsedItems.length > 0) {
+        saveOrderRecord({
+          orderId,
+          customer,
+          building,
+          wing,
+          flat,
+          payment,
+          items: parsedItems,
+          subtotal: calcSubtotal,
+          deliveryFee,
+          total,
+          hour: new Date().getHours(),
+          date: new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+        });
+      }
+
+      renderOwnerAnalytics();
+      document.getElementById("raw-order-paste").value = "";
+
+      if (forwardToShop) {
+        const itemsBlock = slipLines.length > 0 ? slipLines.join("\n") : rawText;
+        const shopSlip = 
 `*PACKING SLIP (Token: #${token})*
 ----------------------------
 ${itemsBlock}
 ----------------------------
 Kripya bag me pack karke rakhein. Pickup ke liye aa rahe hai.`;
+        window.open(`https://wa.me/?text=${encodeURIComponent(shopSlip)}`, "_blank");
+      } else {
+        alert("Order Analytics me save ho gaya hai!");
+      }
+    }
 
-      window.open(`https://wa.me/?text=${encodeURIComponent(shopSlip)}`, "_blank");
+    function deleteSingleOrder(orderId) {
+      const orders = JSON.parse(localStorage.getItem("sm_orders_log") || "[]");
+      const updated = orders.filter(o => o.orderId !== orderId);
+      localStorage.setItem("sm_orders_log", JSON.stringify(updated));
+      renderOwnerAnalytics();
+    }
+
+    function renderOwnerAnalytics() {
+      const orders = JSON.parse(localStorage.getItem("sm_orders_log") || "[]");
+      const missed = JSON.parse(localStorage.getItem("sm_missed_searches") || "{}");
+
+      // Recent Orders List (Tab 1)
+      document.getElementById("recent-orders-count").innerText = `${orders.length} orders`;
+      const recentContainer = document.getElementById("recent-orders-list");
+      if (orders.length === 0) {
+        recentContainer.innerHTML = `<p class="text-gray-400 text-[11px]">Abhi tak koi order record nahi hua hai.</p>`;
+      } else {
+        recentContainer.innerHTML = orders.slice(0, 10).map(o => `
+          <div class="flex justify-between items-center bg-gray-50 p-2 rounded-lg border border-gray-200">
+            <div>
+              <p class="font-bold text-gray-800">${o.customer} <span class="text-gray-400 font-normal">(${o.wing}-${o.flat})</span></p>
+              <p class="text-[10px] text-gray-500">${o.orderId} • ${o.items.length} items • ₹${o.total}</p>
+            </div>
+            <button onclick="deleteSingleOrder('${o.orderId}')" class="text-red-500 hover:text-red-700 px-2 py-1 text-[11px]" title="Delete">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        `).join("");
+      }
+
+      // KPIs (Tab 2)
+      const totalRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
+      const aov = orders.length > 0 ? Math.round(totalRevenue / orders.length) : 0;
+      const freeDelCount = orders.filter(o => o.deliveryFee === 0).length;
+      const paidDelCount = orders.length - freeDelCount;
+
+      document.getElementById("kpi-revenue").innerText = `₹${totalRevenue}`;
+      document.getElementById("kpi-aov").innerText = `Avg Order: ₹${aov}`;
+      document.getElementById("kpi-orders").innerText = orders.length;
+      document.getElementById("kpi-delivery-split").innerText = `Free: ${freeDelCount} | ₹20 Fee: ${paidDelCount}`;
+
+      // Aggregate Products, Customers, Wings, Time & Payment
+      const prodMap = {};
+      const custMap = {};
+      const wingMap = {};
+      let upiCount = 0, codCount = 0;
+      const slots = { "Morning (6-12)": 0, "Afternoon (12-5)": 0, "Evening (5-9)": 0, "Night (9+)": 0 };
+
+      orders.forEach(o => {
+        if (o.payment === "UPI") upiCount++; else codCount++;
+
+        const h = typeof o.hour === "number" ? o.hour : 18;
+        if (h >= 6 && h < 12) slots["Morning (6-12)"]++;
+        else if (h >= 12 && h < 17) slots["Afternoon (12-5)"]++;
+        else if (h >= 17 && h < 21) slots["Evening (5-9)"]++;
+        else slots["Night (9+)"]++;
+
+        const wingKey = `${o.building} (${o.wing})`.trim();
+        wingMap[wingKey] = (wingMap[wingKey] || 0) + 1;
+
+        const custKey = `${o.customer.toLowerCase()}|${o.flat}`;
+        if (!custMap[custKey]) {
+          custMap[custKey] = { name: o.customer, address: `${o.wing}-${o.flat}, ${o.building}`, count: 0, spend: 0 };
+        }
+        custMap[custKey].count += 1;
+        custMap[custKey].spend += (o.total || 0);
+
+        (o.items || []).forEach(it => {
+          const pKey = it.name.toLowerCase();
+          if (!prodMap[pKey]) prodMap[pKey] = { name: it.name, qty: 0, revenue: 0 };
+          prodMap[pKey].qty += (it.qty || 1);
+          prodMap[pKey].revenue += (it.amount || 0);
+        });
+      });
+
+      // Render Top Products
+      const topProducts = Object.values(prodMap).sort((a, b) => b.qty - a.qty);
+      const topProdContainer = document.getElementById("analytics-top-products");
+      if (topProducts.length === 0) {
+        topProdContainer.innerHTML = `<p class="text-gray-400 text-[11px]">Abhi koi product sales data nahi hai.</p>`;
+      } else {
+        const maxQty = topProducts[0].qty || 1;
+        topProdContainer.innerHTML = topProducts.slice(0, 8).map((p, idx) => {
+          const barWidth = Math.round((p.qty / maxQty) * 100);
+          return `
+            <div>
+              <div class="flex justify-between text-[11px] font-semibold mb-0.5">
+                <span class="text-gray-800">${idx + 1}. ${p.name}</span>
+                <span class="text-emerald-800 font-bold">${p.qty} sold (₹${p.revenue})</span>
+              </div>
+              <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-emerald-600 h-1.5 rounded-full" style="width: ${barWidth}%"></div>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      // Render VIP Customers (Most Orders -> Low Orders)
+      const topCustomers = Object.values(custMap).sort((a, b) => b.count - a.count || b.spend - a.spend);
+      const topCustContainer = document.getElementById("analytics-top-customers");
+      if (topCustomers.length === 0) {
+        topCustContainer.innerHTML = `<p class="text-gray-400 text-[11px]">Abhi koi customer history nahi hai.</p>`;
+      } else {
+        topCustContainer.innerHTML = topCustomers.map((c, idx) => `
+          <div class="flex justify-between items-center py-1.5 border-b border-gray-100 last:border-0">
+            <div>
+              <p class="font-bold text-gray-800">${idx + 1}. ${c.name}</p>
+              <p class="text-[10px] text-gray-500">${c.address}</p>
+            </div>
+            <div class="text-right">
+              <span class="bg-amber-100 text-amber-950 font-extrabold text-[10px] px-2 py-0.5 rounded-full">${c.count} Orders</span>
+              <p class="text-[11px] font-bold text-emerald-700 mt-0.5">₹${c.spend}</p>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      // Render Wings
+      const wingEntries = Object.entries(wingMap).sort((a, b) => b[1] - a[1]);
+      document.getElementById("analytics-wings").innerHTML = wingEntries.length === 0
+        ? `<p class="text-gray-400 text-[11px]">No data</p>`
+        : wingEntries.slice(0, 5).map(([w, cnt]) => `
+            <div class="flex justify-between text-[11px]">
+              <span class="text-gray-700 truncate pr-2">${w}</span>
+              <span class="font-bold text-gray-900">${cnt} ord</span>
+            </div>
+          `).join("");
+
+      // Render Peak Time & Payment
+      const topSlot = Object.entries(slots).sort((a, b) => b[1] - a[1])[0];
+      document.getElementById("analytics-time-pay").innerHTML = orders.length === 0
+        ? `<p class="text-gray-400 text-[11px]">No data</p>`
+        : `
+          <div class="text-[11px] space-y-1">
+            <p class="text-gray-700">Peak Time: <b class="text-emerald-800">${topSlot[0]}</b></p>
+            <p class="text-gray-700">UPI Orders: <b>${upiCount}</b> | COD: <b>${codCount}</b></p>
+          </div>
+        `;
+
+      // Render Missed Searches (Tab 3)
+      const missedList = Object.values(missed).sort((a, b) => b.count - a.count);
+      const missedContainer = document.getElementById("analytics-missed-searches");
+      if (missedList.length === 0) {
+        missedContainer.innerHTML = `<p class="text-gray-400 text-[11px]">Abhi tak koi missed search record nahi hui hai.</p>`;
+      } else {
+        missedContainer.innerHTML = missedList.map(m => `
+          <div class="flex justify-between items-center py-1.5 border-b border-gray-100 last:border-0">
+            <div>
+              <span class="font-bold text-gray-800">"${m.term}"</span>
+              <span class="text-[10px] text-gray-400 ml-1">(${m.lastAt})</span>
+            </div>
+            <span class="bg-red-50 text-red-700 border border-red-200 text-[10px] font-extrabold px-2 py-0.5 rounded-full">
+              ${m.count}x searched
+            </span>
+          </div>
+        `).join("");
+      }
+    }
+
+    function exportAnalyticsCSV() {
+      const orders = JSON.parse(localStorage.getItem("sm_orders_log") || "[]");
+      if (orders.length === 0) {
+        alert("Export karne ke liye kam se kam 1 order record hona chahiye.");
+        return;
+      }
+
+      let csv = "Order ID,Date,Customer,Building,Wing,Flat,Items,Subtotal,Delivery Fee,Total,Payment\n";
+      orders.forEach(o => {
+        const itemStr = (o.items || []).map(i => `${i.name} x${i.qty}`).join(" | ");
+        csv += `"${o.orderId}","${o.date}","${o.customer}","${o.building}","${o.wing}","${o.flat}","${itemStr}",${o.subtotal},${o.deliveryFee},${o.total},"${o.payment}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `SocietyMart_Sales_Report_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function clearMissedSearches() {
+      if (confirm("Kya aap Missed Searches list clear karna chahte hain?")) {
+        localStorage.removeItem("sm_missed_searches");
+        renderOwnerAnalytics();
+      }
+    }
+
+    function clearAllAnalytics() {
+      if (confirm("Kya aap saara purana test order data delete karna chahte hain?")) {
+        localStorage.removeItem("sm_orders_log");
+        renderOwnerAnalytics();
+      }
     }
   </script>
 </body>
