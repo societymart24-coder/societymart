@@ -24,7 +24,8 @@
       <div class="flex justify-between items-center mb-2.5">
         <div>
           <div class="flex items-center gap-1.5 flex-wrap">
-            <h1 class="text-lg font-extrabold tracking-tight flex items-center gap-1">
+            <!-- Tapping title 4 times opens Secret Owner Mode -->
+            <h1 id="brand-logo" onclick="handleSecretOwnerTap()" class="text-lg font-extrabold tracking-tight flex items-center gap-1 select-none cursor-pointer">
               <i class="fa-solid fa-basket-shopping text-amber-300"></i> SocietyMart
             </h1>
             <span class="bg-amber-400 text-emerald-950 text-[10px] font-black px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
@@ -100,7 +101,7 @@
     <!-- Custom Request Box -->
     <div id="not-found-box" class="hidden mt-4 bg-white border border-dashed border-emerald-400 rounded-2xl p-5 text-center shadow-sm">
       <h3 class="text-sm font-bold text-gray-800">Ye item list me nahi mila?</h3>
-      <p class="text-xs text-gray-500 mt-1">Chinta mat karein! Aaspass ki dukanon par sab available hai. Seedha WhatsApp par naam bhej kar mangwayein.</p>
+      <p class="text-xs text-gray-500 mt-1">Chinta mat karein! Humare paas sab available hai. Seedha WhatsApp par naam bhej kar mangwayein.</p>
       <button onclick="requestCustomItem()" class="mt-3 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl inline-flex items-center gap-2 shadow">
         <i class="fa-brands fa-whatsapp text-sm"></i> "<span id="custom-item-label">Item</span>" WhatsApp Par Mangwayein
       </button>
@@ -135,7 +136,7 @@
     </div>
   </div>
 
-  <!-- Checkout Modal -->
+  <!-- Pure Customer Checkout Modal (Zero Internal Business Details) -->
   <div id="checkout-modal" class="fixed inset-0 bg-black/60 z-30 hidden flex justify-center items-end sm:items-center p-0 sm:p-4 backdrop-blur-sm">
     <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl p-5 max-h-[94vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-3 pb-2 border-b">
@@ -195,30 +196,46 @@
           <i class="fa-brands fa-whatsapp text-base"></i> Place Order on WhatsApp
         </button>
 
-        <!-- Quick Copy Store Slip Box (Appears after clicking Place Order) -->
-        <div id="store-slip-helper" class="hidden mt-3 bg-gray-50 border border-gray-300 rounded-xl p-3">
-          <div class="flex justify-between items-center mb-1.5">
-            <span class="text-[11px] font-bold text-gray-700">Dukan Wale Ka Packing Slip (Only Items):</span>
-            <button type="button" onclick="copyStoreSlipOnly()" id="copy-slip-btn" class="bg-gray-800 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg hover:bg-black">
-              <i class="fa-regular fa-copy mr-1"></i> Copy Slip
-            </button>
-          </div>
-          <pre id="store-slip-preview" class="text-[11px] text-gray-700 whitespace-pre-wrap font-mono bg-white p-2 rounded border border-gray-200"></pre>
+        <!-- Customer Confirmation Note -->
+        <div id="order-placed-note" class="hidden mt-3 bg-emerald-50 border border-emerald-200 text-emerald-900 rounded-xl p-3 text-center text-xs">
+          <p class="font-bold">WhatsApp par aapka order message taiyar hai!</p>
+          <p class="text-[11px] text-emerald-700 mt-0.5">WhatsApp me <b>Send</b> dabate hi aapka order confirm ho jayega.</p>
         </div>
       </form>
     </div>
   </div>
 
+  <!-- SECRET OWNER-ONLY MODAL (Hidden from Customers — Open via ?owner=1 or 4 taps on logo) -->
+  <div id="owner-modal" class="fixed inset-0 bg-black/75 z-40 hidden flex justify-center items-center p-4 backdrop-blur-xs">
+    <div class="bg-white w-full max-w-md rounded-2xl p-5 shadow-2xl">
+      <div class="flex justify-between items-center border-b pb-2 mb-3">
+        <div>
+          <span class="bg-gray-900 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded">OWNER PRIVATE TOOL</span>
+          <h3 class="text-sm font-extrabold text-gray-900 mt-1">Dukan Wale Ka Packing Slip Banayein</h3>
+        </div>
+        <button onclick="document.getElementById('owner-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-700 text-2xl font-bold">&times;</button>
+      </div>
+
+      <p class="text-[11px] text-gray-600 mb-2">Customer ka WhatsApp order message neeche paste karein—system apne aap rates aur address hata kar sirf items ki slip bana dega:</p>
+      
+      <textarea id="raw-order-paste" rows="4" placeholder="Customer ka WhatsApp message yahan paste karein..." class="w-full border border-gray-300 rounded-xl p-2.5 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none"></textarea>
+
+      <button type="button" onclick="generateAndForwardShopSlip()" class="w-full mt-3 bg-gray-900 hover:bg-black text-white font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow">
+        <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i> Convert & Send Slip to Shopkeeper
+      </button>
+    </div>
+  </div>
+
   <script>
     // 1. AAPKA WHATSAPP NUMBER (91 ke sath, bina '+' ke)
-    const STORE_WHATSAPP_NUMBER = "919960479334"; 
+    const STORE_WHATSAPP_NUMBER = "919876543210"; 
 
     // 2. GOOGLE SHEET PUBLISHED CSV LINK YAHAN PASTE KAREIN
-    const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSjGDpDH2YVdKONBSpYfOuFXlVHRwIvufRWWXc3M22LrObW3vzhrndMvq1mkHtnJmPjC_advF9v5og/pub?gid=0&single=true&output=csv"; 
+    const GOOGLE_SHEET_CSV_URL = ""; 
 
     // 3. INDIVIDUAL PRODUCT-SPECIFIC IMAGE LIBRARY
     const SMART_IMAGE_MAP = [
-      // Specific Fruits (Individual items, no mixed bowls)
+      // Specific Fruits
       { keywords: ["apple", "seb"], url: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["banana", "kela", "kele"], url: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["mango", "aam", "hapus", "alphonso"], url: "https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&auto=format&fit=crop&q=80" },
@@ -235,7 +252,7 @@
       { keywords: ["ginger", "adrak", "garlic", "lasun"], url: "https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["sabzi", "veg", "bhaji"], url: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&auto=format&fit=crop&q=80" },
 
-      // Atta, Flour, Rice & Dal (Dedicated Flour/Wheat Photo)
+      // Atta, Flour, Rice & Dal
       { keywords: ["atta", "aata", "aashirvaad", "chakki", "flour", "maida", "besan", "rava", "sooji", "poha"], url: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["rice", "chawal", "kolam", "basmati", "indrayani"], url: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["dal", "daal", "toor", "moong", "chana", "rajma", "pulse"], url: "https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=400&auto=format&fit=crop&q=80" },
@@ -322,9 +339,25 @@
     let cart = {};
     let currentCategory = "All";
     let searchQuery = "";
-    let latestStoreSlipText = "";
+    let logoTapCount = 0;
+    let logoTapTimer = null;
+
+    // Secret Owner Trigger (4 taps on logo OR ?owner=1 in URL)
+    function handleSecretOwnerTap() {
+      logoTapCount++;
+      clearTimeout(logoTapTimer);
+      logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 1500);
+      if (logoTapCount >= 4) {
+        logoTapCount = 0;
+        document.getElementById("owner-modal").classList.remove("hidden");
+      }
+    }
 
     window.addEventListener("DOMContentLoaded", async () => {
+      if (window.location.search.includes("owner=1")) {
+        document.getElementById("owner-modal").classList.remove("hidden");
+      }
+
       const savedUser = JSON.parse(localStorage.getItem("societymart_user") || "{}");
       if (savedUser.name) document.getElementById("cust-name").value = savedUser.name;
       if (savedUser.building) document.getElementById("cust-building").value = savedUser.building;
@@ -599,6 +632,7 @@
 
     function toggleModal(show) {
       const modal = document.getElementById("checkout-modal");
+      document.getElementById("order-placed-note").classList.add("hidden");
       if (show) {
         if (Object.keys(cart).length === 0) {
           alert("Aapka cart khali hai. Pehle items add karein.");
@@ -705,7 +739,6 @@
       window.open(`https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
     }
 
-    // Table column padding helpers for clean WhatsApp Monospace Receipt
     function padRight(str, len) {
       str = String(str);
       return str.length >= len ? str.slice(0, len - 1) + "." : str + " ".repeat(len - str.length);
@@ -716,19 +749,7 @@
       return str.length >= len ? str : " ".repeat(len - str.length) + str;
     }
 
-    // Copy Store Slip Button Handler
-    function copyStoreSlipOnly() {
-      if (!latestStoreSlipText) return;
-      navigator.clipboard.writeText(latestStoreSlipText).then(() => {
-        const btn = document.getElementById("copy-slip-btn");
-        btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Copied!';
-        setTimeout(() => {
-          btn.innerHTML = '<i class="fa-regular fa-copy mr-1"></i> Copy Slip';
-        }, 2000);
-      });
-    }
-
-    // WhatsApp Checkout with Monospace Table + 1-Tap Forwardable Store Slip
+    // PURE CUSTOMER WHATSAPP MESSAGE (No Store Slip / No Internal Details)
     function sendOrderViaWhatsApp(e) {
       e.preventDefault();
 
@@ -742,7 +763,6 @@
 
       let itemsTotal = 0;
       let tableRows = "";
-      let shopkeeperPackingList = "";
 
       for (let id in cart) {
         const item = products.find(p => String(p.id) === String(id));
@@ -750,14 +770,12 @@
         const subtotal = item.price * cart[id];
         itemsTotal += subtotal;
         
-        // Aligned Monospace Table Row (28 chars total width)
-        const colItem = padRight(item.name, 16);
+        // Include unit clearly for both customer & owner clarity
+        const itemLabel = `${item.name} (${item.unit})`;
+        const colItem = padRight(itemLabel, 18);
         const colQty  = padLeft(`x${cart[id]}`, 4);
-        const colAmt  = padLeft(`₹${subtotal}`, 8);
+        const colAmt  = padLeft(`₹${subtotal}`, 7);
         tableRows += `${colItem}${colQty}${colAmt}\n`;
-
-        // Pure Packing Slip for Store (Zero Price/Margin)
-        shopkeeperPackingList += `- ${item.name} (${item.unit}) : ${cart[id]} qty\n`;
       }
 
       const deliveryCharge = itemsTotal >= 200 ? 0 : 20;
@@ -765,38 +783,23 @@
       const deliveryLabel = deliveryCharge === 0 ? "FREE" : "₹20";
       const token = Math.floor(100 + Math.random() * 900);
 
-      // Exact Store Forward Slip (Isolated so only this portion gets forwarded)
-      latestStoreSlipText = 
-`*PACKING SLIP (Token: #${token})*
-----------------------------
-${shopkeeperPackingList.trim()}
-----------------------------
-Kripya bag me pack karke rakhein. Pickup ke liye aa rahe hai.`;
-
-      // Show Copy Slip helper on UI as well
-      document.getElementById("store-slip-preview").innerText = latestStoreSlipText;
-      document.getElementById("store-slip-helper").classList.remove("hidden");
-
-      // 1-Tap WhatsApp Forward Link (Tapping this in WhatsApp opens contact picker with ONLY the Store Slip)
-      const oneTapForwardLink = `https://wa.me/?text=${encodeURIComponent(latestStoreSlipText)}`;
-
       const billTable = 
 "```" + `\n` +
-`Item            Qty      Amt\n` +
-`----------------------------\n` +
+`Item              Qty     Amt\n` +
+`-----------------------------\n` +
 `${tableRows}` +
-`----------------------------\n` +
-`${padRight("Subtotal", 20)}${padLeft("₹" + itemsTotal, 8)}\n` +
-`${padRight("Taxes & Packing", 20)}${padLeft("₹0", 8)}\n` +
-`${padRight("Delivery Fee", 20)}${padLeft(deliveryLabel, 8)}\n` +
-`============================\n` +
-`${padRight("FINAL TOTAL", 20)}${padLeft("₹" + grandTotal, 8)}\n` +
+`-----------------------------\n` +
+`${padRight("Subtotal", 21)}${padLeft("₹" + itemsTotal, 8)}\n` +
+`${padRight("Taxes & Packing", 21)}${padLeft("₹0", 8)}\n` +
+`${padRight("Delivery Fee", 21)}${padLeft(deliveryLabel, 8)}\n` +
+`=============================\n` +
+`${padRight("FINAL TOTAL", 21)}${padLeft("₹" + grandTotal, 8)}\n` +
 "```";
 
       const message = 
 `*NAYA ORDER - SocietyMart*
 Order ID: #SM-${flat}-${token}
-============================
+=============================
 *Customer:* ${name}
 *Flat:* ${wing}, Flat No. ${flat}
 *Society:* ${building}
@@ -805,12 +808,50 @@ Order ID: #SM-${flat}-${token}
 *BILL DETAILS:*
 ${billTable}
 
-----------------------------
-*STORE FORWARD SLIP (1-Tap Forward Link):*
-${oneTapForwardLink}`;
+Kripya order confirm karein.`;
+
+      document.getElementById("order-placed-note").classList.remove("hidden");
 
       const whatsappURL = `https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(whatsappURL, "_blank");
+    }
+
+    // SECRET OWNER CONVERTER: Strips prices & customer details, creates clean Shopkeeper Slip
+    function generateAndForwardShopSlip() {
+      const rawText = document.getElementById("raw-order-paste").value.trim();
+      if (!rawText) {
+        alert("Pehle customer ka WhatsApp order message paste karein.");
+        return;
+      }
+
+      const tokenMatch = rawText.match(/Order ID:\s*#SM-[^-]+-(\d+)/i);
+      const token = tokenMatch ? tokenMatch[1] : Math.floor(100 + Math.random() * 900);
+
+      const lines = rawText.split("\n");
+      const cleanItems = [];
+
+      for (const line of lines) {
+        // Matches table rows like: "Amul Milk (500 m.  x1    ₹27"
+        const rowMatch = line.match(/^(.+?)\s+x(\d+)\s+₹\d+/i);
+        if (rowMatch) {
+          const itemName = rowMatch[1].trim();
+          const qty = rowMatch[2].trim();
+          cleanItems.push(`- ${itemName} : ${qty} qty`);
+        }
+      }
+
+      const itemsBlock = cleanItems.length > 0 
+        ? cleanItems.join("\n") 
+        : rawText;
+
+      const shopSlip = 
+`*PACKING SLIP (Token: #${token})*
+----------------------------
+${itemsBlock}
+----------------------------
+Kripya bag me pack karke rakhein. Pickup ke liye aa rahe hai.`;
+
+      window.open(`https://wa.me/?text=${encodeURIComponent(shopSlip)}`, "_blank");
     }
   </script>
 </body>
