@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SocietyMart - 15 Min Flat Delivery</title>
+  <title>SocietyMart - 15 Min Delivery | Zero Hidden Charges</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -21,20 +21,23 @@
   <!-- Header + Live Search -->
   <header class="bg-gradient-to-r from-emerald-800 to-emerald-700 text-white p-3.5 sticky top-0 z-20 shadow-lg">
     <div class="max-w-md mx-auto">
-      <div class="flex justify-between items-center mb-3">
+      <div class="flex justify-between items-center mb-2.5">
         <div>
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1.5 flex-wrap">
             <h1 class="text-lg font-extrabold tracking-tight flex items-center gap-1">
-              <span>🛒</span> SocietyMart
+              <i class="fa-solid fa-basket-shopping text-amber-300"></i> SocietyMart
             </h1>
             <span class="bg-amber-400 text-emerald-950 text-[10px] font-black px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
               <i class="fa-solid fa-bolt animate-pulse-fast"></i> 15 MINS
             </span>
+            <span class="bg-emerald-950/80 border border-emerald-400/50 text-amber-300 text-[9px] font-extrabold px-2 py-0.5 rounded-full">
+              ZERO TAX & HIDDEN FEES
+            </span>
           </div>
-          <p class="text-[11px] text-emerald-100 mt-0.5">Grocery, Sabzi, Bakery & Medical — seedha flat tak</p>
+          <p class="text-[11px] text-emerald-100 mt-1 font-medium">No Packing Fee • No Surge Charge • Seedha Flat Tak</p>
         </div>
 
-        <button onclick="toggleModal(true)" class="relative p-2.5 bg-emerald-900/80 hover:bg-emerald-950 border border-emerald-600/50 rounded-xl text-white transition">
+        <button onclick="toggleModal(true)" class="relative p-2.5 bg-emerald-900/80 hover:bg-emerald-950 border border-emerald-600/50 rounded-xl text-white transition flex-shrink-0">
           <i class="fa-solid fa-bag-shopping text-base"></i>
           <span id="cart-badge" class="absolute -top-1.5 -right-1.5 bg-amber-400 text-black font-extrabold text-[10px] rounded-full h-5 w-5 flex items-center justify-center shadow hidden">0</span>
         </button>
@@ -47,7 +50,7 @@
           type="text" 
           id="search-input" 
           oninput="handleSearch()" 
-          placeholder='Search "Milk", "Kanda", "Khari", "Diaper", "Atta"...' 
+          placeholder='Search "Apple", "Milk", "Atta", "Kanda", "Vix"...' 
           class="w-full bg-white text-gray-800 placeholder-gray-400 text-xs rounded-xl pl-9 pr-9 py-2.5 shadow-inner focus:outline-none focus:ring-2 focus:ring-amber-400"
         >
         <button 
@@ -61,22 +64,21 @@
     </div>
   </header>
 
-  <!-- Free Delivery Offer Strip -->
-  <div class="bg-amber-100 border-b border-amber-300 text-amber-950 px-4 py-1.5 text-[11px] font-semibold text-center flex items-center justify-center gap-1.5">
-    <span>🎉</span>
-    <span><b>₹200+ par FREE Delivery</b> • Below ₹200: sirf ₹20 flat fee</span>
+  <!-- Free Delivery & No Hidden Tax Banner -->
+  <div class="bg-amber-100 border-b border-amber-300 text-amber-950 px-3 py-1.5 text-[11px] font-semibold text-center">
+    <span><b>₹200+ par FREE Delivery</b> (Below ₹200: ₹20) • <b>No Extra Tax / Handling Fee</b></span>
   </div>
 
   <!-- Categories Bar -->
   <div class="max-w-md mx-auto px-4 pt-3 pb-2">
     <div id="category-bar" class="flex gap-2 overflow-x-auto no-scrollbar">
       <button onclick="filterCategory('All', this)" class="cat-btn active bg-emerald-700 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm">Sabhi Items</button>
-      <button onclick="filterCategory('Sabzi', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">🥬 Sabzi & Fruits</button>
-      <button onclick="filterCategory('Dairy', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">🥛 Dairy & Bread</button>
-      <button onclick="filterCategory('BakerySnacks', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">🥐 Bakery & Snacks</button>
-      <button onclick="filterCategory('AttaOil', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">🌾 Atta, Dal & Tel</button>
-      <button onclick="filterCategory('Medical', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">💊 Medical & Care</button>
-      <button onclick="filterCategory('Daily', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">🧼 Daily Essentials</button>
+      <button onclick="filterCategory('Sabzi', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Sabzi & Fruits</button>
+      <button onclick="filterCategory('Dairy', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Dairy & Bread</button>
+      <button onclick="filterCategory('BakerySnacks', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Bakery & Snacks</button>
+      <button onclick="filterCategory('AttaOil', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Atta, Dal & Tel</button>
+      <button onclick="filterCategory('Medical', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Medical & Care</button>
+      <button onclick="filterCategory('Daily', this)" class="cat-btn bg-white text-gray-700 border border-gray-300 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">Daily Essentials</button>
     </div>
   </div>
 
@@ -97,7 +99,6 @@
 
     <!-- Custom Request Box -->
     <div id="not-found-box" class="hidden mt-4 bg-white border border-dashed border-emerald-400 rounded-2xl p-5 text-center shadow-sm">
-      <div class="text-2xl mb-1">🔍</div>
       <h3 class="text-sm font-bold text-gray-800">Ye item list me nahi mila?</h3>
       <p class="text-xs text-gray-500 mt-1">Chinta mat karein! Aaspass ki dukanon par sab available hai. Seedha WhatsApp par naam bhej kar mangwayein.</p>
       <button onclick="requestCustomItem()" class="mt-3 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl inline-flex items-center gap-2 shadow">
@@ -122,7 +123,7 @@
 
     <div class="max-w-md mx-auto p-3 flex justify-between items-center">
       <div>
-        <p class="text-[11px] text-gray-500 font-semibold"><span id="total-items">0</span> Items added</p>
+        <p class="text-[11px] text-gray-500 font-semibold"><span id="total-items">0</span> Items • <span class="text-emerald-700">Zero Tax</span></p>
         <div class="flex items-baseline gap-1.5">
           <p class="text-base font-black text-gray-900">₹<span id="bottom-total-price">0</span></p>
           <span id="delivery-tag" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800">FREE DELIVERY</span>
@@ -141,7 +142,7 @@
         <div>
           <div class="flex items-center gap-2">
             <h2 class="text-base font-bold text-gray-900">Order Summary</h2>
-            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">⚡ 15 Min Delivery</span>
+            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">15 Min • Zero Tax</span>
           </div>
           <p class="text-[11px] text-gray-500">Apna flat address verify karein</p>
         </div>
@@ -153,8 +154,8 @@
 
       <!-- Dynamic Upsell Section -->
       <div id="upsell-box" class="bg-amber-50/80 border border-amber-200 rounded-xl p-3 mb-4 hidden">
-        <p class="text-xs font-bold text-amber-950 mb-2 flex items-center gap-1">
-          <span>🥐</span> Chai-nashta ya munchies sath me jodein:
+        <p class="text-xs font-bold text-amber-950 mb-2">
+          Chai-nashta ya munchies sath me jodein:
         </p>
         <div id="upsell-items" class="flex gap-2 overflow-x-auto no-scrollbar pb-1"></div>
       </div>
@@ -193,6 +194,17 @@
         <button type="submit" class="w-full mt-3 bg-emerald-700 hover:bg-emerald-800 active:scale-[0.99] text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg transition text-xs">
           <i class="fa-brands fa-whatsapp text-base"></i> Place Order on WhatsApp
         </button>
+
+        <!-- Quick Copy Store Slip Box (Appears after clicking Place Order) -->
+        <div id="store-slip-helper" class="hidden mt-3 bg-gray-50 border border-gray-300 rounded-xl p-3">
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-[11px] font-bold text-gray-700">Dukan Wale Ka Packing Slip (Only Items):</span>
+            <button type="button" onclick="copyStoreSlipOnly()" id="copy-slip-btn" class="bg-gray-800 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg hover:bg-black">
+              <i class="fa-regular fa-copy mr-1"></i> Copy Slip
+            </button>
+          </div>
+          <pre id="store-slip-preview" class="text-[11px] text-gray-700 whitespace-pre-wrap font-mono bg-white p-2 rounded border border-gray-200"></pre>
+        </div>
       </form>
     </div>
   </div>
@@ -204,52 +216,69 @@
     // 2. GOOGLE SHEET PUBLISHED CSV LINK YAHAN PASTE KAREIN
     const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSjGDpDH2YVdKONBSpYfOuFXlVHRwIvufRWWXc3M22LrObW3vzhrndMvq1mkHtnJmPjC_advF9v5og/pub?gid=0&single=true&output=csv"; 
 
-    // 3. SMART AUTO-IMAGE LIBRARY (Grocery + Sabzi + Bakery + Medical)
+    // 3. INDIVIDUAL PRODUCT-SPECIFIC IMAGE LIBRARY
     const SMART_IMAGE_MAP = [
+      // Specific Fruits (Individual items, no mixed bowls)
+      { keywords: ["apple", "seb"], url: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["banana", "kela", "kele"], url: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["mango", "aam", "hapus", "alphonso"], url: "https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["orange", "santra", "mosambi"], url: "https://images.unsplash.com/photo-1547514701-42782101795e?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["grapes", "angoor"], url: "https://images.unsplash.com/photo-1537640538966-79f369143f8f?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["pomegranate", "anar", "dalimb"], url: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400&auto=format&fit=crop&q=80" },
+
+      // Specific Vegetables
+      { keywords: ["onion", "kanda", "pyaz"], url: "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["potato", "batata", "aloo"], url: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["tomato", "tamatar"], url: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["coriander", "dhaniya", "kothimbir", "palak", "methi", "spinach"], url: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["chilli", "mirchi"], url: "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["ginger", "adrak", "garlic", "lasun"], url: "https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["sabzi", "veg", "bhaji"], url: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&auto=format&fit=crop&q=80" },
+
+      // Atta, Flour, Rice & Dal (Dedicated Flour/Wheat Photo)
+      { keywords: ["atta", "aata", "aashirvaad", "chakki", "flour", "maida", "besan", "rava", "sooji", "poha"], url: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["rice", "chawal", "kolam", "basmati", "indrayani"], url: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["dal", "daal", "toor", "moong", "chana", "rajma", "pulse"], url: "https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["oil", "tel", "fortune", "sunlite", "sunflower", "ghee"], url: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["salt", "namak", "sugar", "shakkar"], url: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=400&auto=format&fit=crop&q=80" },
+
       // Dairy & Bread
       { keywords: ["milk", "doodh", "taaza", "gokul", "amul milk"], url: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["butter", "makkhan"], url: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=400&auto=format&fit=crop&q=80" },
-      { keywords: ["paneer", "cheese", "dahi", "curd", "shrikhand"], url: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["paneer", "cheese"], url: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["dahi", "curd", "yogurt", "shrikhand"], url: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["bread", "pav", "bun"], url: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["egg", "anda", "ande"], url: "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=400&auto=format&fit=crop&q=80" },
 
-      // Bakery & Farsan
+      // Bakery, Snacks & Drinks
       { keywords: ["khari", "toast", "rusk", "puff", "bakery"], url: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["cake", "pastry", "muffin", "donut"], url: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["samosa", "kachori", "dhokla", "vada"], url: "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["chips", "lays", "kurkure", "namkeen", "farsan", "wafers", "chivda", "sev"], url: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["biscuit", "parle", "britannia", "marie", "good day", "oreo", "nankhatai"], url: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&auto=format&fit=crop&q=80" },
-
-      // Sabzi & Fruits
-      { keywords: ["onion", "kanda", "potato", "batata", "tomato", "tamatar", "palak", "methi", "dhaniya", "mirchi", "sabzi", "veg", "bhaji"], url: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&auto=format&fit=crop&q=80" },
-      { keywords: ["apple", "banana", "kela", "seb", "mango", "orange", "fruit", "grapes", "pomegranate"], url: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&auto=format&fit=crop&q=80" },
-
-      // Medical & Personal Care
-      { keywords: ["diaper", "pampers", "mamy", "wipes", "baby"], url: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&auto=format&fit=crop&q=80" },
-      { keywords: ["pad", "sanitary", "whisper", "stayfree", "ors", "bandaid", "dettol", "savlon", "medical", "medicine", "pain", "spray", "volini", "moov", "cotton", "first aid"], url: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&auto=format&fit=crop&q=80" },
-
-      // Atta, Dal, Oil & Daily
-      { keywords: ["atta", "aata", "flour", "maida", "besan", "rava", "sooji", "poha"], url: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400&auto=format&fit=crop&q=80" },
-      { keywords: ["rice", "chawal", "kolam", "basmati", "indrayani"], url: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&auto=format&fit=crop&q=80" },
-      { keywords: ["dal", "daal", "toor", "moong", "chana", "rajma", "pulse"], url: "https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=400&auto=format&fit=crop&q=80" },
-      { keywords: ["oil", "tel", "fortune", "sunlite", "sunflower", "ghee"], url: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400&auto=format&fit=crop&q=80" },
-      { keywords: ["salt", "namak", "sugar", "shakkar"], url: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["tea", "chai", "wagh bakri", "tata tea", "coffee"], url: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["maggi", "noodles", "pasta", "yippee"], url: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["coke", "coca", "pepsi", "sprite", "thums", "drink", "juice", "cold"], url: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["chocolate", "dairy milk", "cadbury", "kitkat"], url: "https://images.unsplash.com/photo-1511381939415-e44015466834?w=400&auto=format&fit=crop&q=80" },
+
+      // Medical, Vicks/Vix & Personal Care
+      { keywords: ["vix", "vicks", "balm", "zandu", "iodex", "moov", "volini", "pain", "spray", "inhaler"], url: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["diaper", "pampers", "mamy", "wipes", "baby"], url: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400&auto=format&fit=crop&q=80" },
+      { keywords: ["pad", "sanitary", "whisper", "stayfree", "ors", "bandaid", "dettol", "savlon", "medical", "medicine", "cotton"], url: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&auto=format&fit=crop&q=80" },
+
+      // Household & Dry Fruits
       { keywords: ["surf", "detergent", "soap", "sabun", "rin", "tide", "vim", "liquid"], url: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&auto=format&fit=crop&q=80" },
       { keywords: ["kaju", "badam", "cashew", "almond", "kishmish", "dry fruit"], url: "https://images.unsplash.com/photo-1599599810769-bcde5a160d32?w=400&auto=format&fit=crop&q=80" },
-      { keywords: ["masala", "haldi", "mirchi", "jeera", "turmeric", "spice"], url: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&auto=format&fit=crop&q=80" }
+      { keywords: ["masala", "haldi", "jeera", "turmeric", "spice"], url: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&auto=format&fit=crop&q=80" }
     ];
 
     function getCleanSvgFallback(name) {
       const safeName = (name || "Grocery").replace(/[<>&"']/g, "").slice(0, 18);
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="220" viewBox="0 0 300 220">
         <rect width="300" height="220" fill="#f8fafc"/>
-        <circle cx="150" cy="92" r="42" fill="#ecfdf5"/>
-        <text x="150" y="105" font-size="38" text-anchor="middle">🛍️</text>
-        <text x="150" y="162" font-family="sans-serif" font-size="14" font-weight="700" fill="#065f46" text-anchor="middle">${safeName}</text>
+        <circle cx="150" cy="92" r="38" fill="#ecfdf5"/>
+        <text x="150" y="102" font-family="sans-serif" font-size="24" font-weight="800" fill="#047857" text-anchor="middle">SM</text>
+        <text x="150" y="160" font-family="sans-serif" font-size="14" font-weight="700" fill="#065f46" text-anchor="middle">${safeName}</text>
       </svg>`;
       return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
     }
@@ -278,22 +307,22 @@
       return getCleanSvgFallback(productName);
     }
 
-    // Backup Default Products (All Categories Covered)
+    // Backup Default Products
     let products = [
       { id: "1", name: "Amul Taaza Toned Milk", unit: "500 ml", mrp: 28, price: 27, category: "Dairy", inStock: true, img: resolveProductImage("", "Amul Taaza Milk") },
-      { id: "2", name: "Fresh Kanda & Batata Combo", unit: "1 kg each", mrp: 85, price: 70, category: "Sabzi", inStock: true, img: resolveProductImage("", "Onion Potato Sabzi") },
-      { id: "3", name: "Fresh Bakery Khari & Toast", unit: "250 g", mrp: 65, price: 55, category: "BakerySnacks", inStock: true, img: resolveProductImage("", "Bakery Khari Toast") },
-      { id: "4", name: "Aashirvaad Shudh Chakki Atta", unit: "5 kg", mrp: 265, price: 245, category: "AttaOil", inStock: true, img: resolveProductImage("", "Aashirvaad Atta") },
-      { id: "5", name: "Pampers Baby Diapers (M)", unit: "Pack of 5", mrp: 99, price: 90, category: "Medical", inStock: true, img: resolveProductImage("", "Pampers Baby Diapers") },
-      { id: "6", name: "Whisper Ultra Clean Pads", unit: "7 Pads", mrp: 55, price: 52, category: "Medical", inStock: true, img: resolveProductImage("", "Whisper Sanitary Pads") },
+      { id: "2", name: "Fresh Shimla Apple", unit: "500 g", mrp: 110, price: 95, category: "Sabzi", inStock: true, img: resolveProductImage("", "Fresh Shimla Apple") },
+      { id: "3", name: "Aashirvaad Shudh Chakki Atta", unit: "5 kg", mrp: 265, price: 245, category: "AttaOil", inStock: true, img: resolveProductImage("", "Aashirvaad Atta") },
+      { id: "4", name: "Fresh Red Onion (Kanda)", unit: "1 kg", mrp: 45, price: 38, category: "Sabzi", inStock: true, img: resolveProductImage("", "Fresh Red Onion") },
+      { id: "5", name: "Bakery Khari & Toast", unit: "250 g", mrp: 65, price: 55, category: "BakerySnacks", inStock: true, img: resolveProductImage("", "Bakery Khari Toast") },
+      { id: "6", name: "Vicks VapoRub Relief Balm", unit: "25 ml", mrp: 95, price: 90, category: "Medical", inStock: true, img: resolveProductImage("", "Vicks VapoRub") },
       { id: "7", name: "Fortune Sunlite Refined Oil", unit: "1 Litre", mrp: 155, price: 140, category: "AttaOil", inStock: true, img: resolveProductImage("", "Fortune Oil") },
-      { id: "8", name: "Special Chivda & Farsan Mix", unit: "250 g", mrp: 75, price: 65, category: "BakerySnacks", inStock: true, img: resolveProductImage("", "Farsan Chivda") },
-      { id: "9", name: "Tata Iodized Salt", unit: "1 kg", mrp: 30, price: 28, category: "Daily", inStock: true, img: resolveProductImage("", "Tata Salt") }
+      { id: "8", name: "Tata Iodized Salt", unit: "1 kg", mrp: 30, price: 28, category: "Daily", inStock: true, img: resolveProductImage("", "Tata Salt") }
     ];
 
     let cart = {};
     let currentCategory = "All";
     let searchQuery = "";
+    let latestStoreSlipText = "";
 
     window.addEventListener("DOMContentLoaded", async () => {
       const savedUser = JSON.parse(localStorage.getItem("societymart_user") || "{}");
@@ -546,7 +575,7 @@
       const deliveryTag = document.getElementById("delivery-tag");
 
       if (itemsTotal >= 200) {
-        progressText.innerHTML = "🎉 <b>FREE Doorstep Delivery</b> Unlocked!";
+        progressText.innerHTML = "<b>FREE Doorstep Delivery</b> Unlocked! (Zero Extra Tax)";
         deliveryTag.innerText = "FREE DELIVERY";
         deliveryTag.className = "text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800";
       } else {
@@ -621,6 +650,10 @@
             <span>Items Total:</span>
             <span class="font-semibold">₹${itemsTotal}</span>
           </div>
+          <div class="flex justify-between items-center text-gray-600">
+            <span>Taxes & Packing Charges:</span>
+            <span class="text-emerald-700 font-bold">₹0 (FREE)</span>
+          </div>
           <div class="flex justify-between items-center">
             <span>Delivery Fee:</span>
             <span class="${deliveryCharge === 0 ? 'text-emerald-700 font-extrabold' : 'text-gray-800 font-bold'}">
@@ -628,17 +661,16 @@
             </span>
           </div>
           ${itemsTotal < 200 ? `
-            <div class="bg-amber-50 text-amber-900 border border-amber-200 p-2 rounded-lg text-[11px] flex items-center gap-1.5">
-              <span>💡</span>
-              <span>Sirf <b>₹${diffToFree}</b> ka aur saaman add karein aur <b>₹20 delivery fee bachayein!</b></span>
+            <div class="bg-amber-50 text-amber-900 border border-amber-200 p-2 rounded-lg text-[11px]">
+              Sirf <b>₹${diffToFree}</b> ka aur saaman add karein aur <b>₹20 delivery fee bachayein!</b>
             </div>
           ` : `
             <div class="bg-emerald-50 text-emerald-800 border border-emerald-200 p-2 rounded-lg text-[11px] font-semibold text-center">
-              🎉 Badhaai ho! ₹200+ offer par Delivery 100% FREE hai!
+              Badhaai ho! ₹200+ offer par Delivery 100% FREE hai!
             </div>
           `}
           <div class="flex justify-between items-center text-sm font-black pt-2 border-t text-emerald-950">
-            <span>To Pay:</span>
+            <span>To Pay (Final):</span>
             <span class="text-emerald-800 text-base">₹${grandTotal}</span>
           </div>
         </div>
@@ -667,12 +699,36 @@
     function requestCustomItem() {
       const requestedItem = document.getElementById("search-input").value.trim();
       const savedUser = JSON.parse(localStorage.getItem("societymart_user") || "{}");
-      const addressInfo = savedUser.flat ? `\n📍 *Address:* ${savedUser.wing}, Flat ${savedUser.flat}, ${savedUser.building}` : "";
+      const addressInfo = savedUser.flat ? `\n*Address:* ${savedUser.wing}, Flat ${savedUser.flat}, ${savedUser.building}` : "";
 
-      const msg = `🛒 *CUSTOM ITEM REQUEST - SocietyMart*\n───────────────────\nMujhe ye item chahiye: *${requestedItem}*${addressInfo}\n\nKripya rate aur availability confirm karein.`;
+      const msg = `*CUSTOM ITEM REQUEST - SocietyMart*\n------------------------\nMujhe ye item chahiye: *${requestedItem}*${addressInfo}\n\nKripya rate aur availability confirm karein.`;
       window.open(`https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
     }
 
+    // Table column padding helpers for clean WhatsApp Monospace Receipt
+    function padRight(str, len) {
+      str = String(str);
+      return str.length >= len ? str.slice(0, len - 1) + "." : str + " ".repeat(len - str.length);
+    }
+
+    function padLeft(str, len) {
+      str = String(str);
+      return str.length >= len ? str : " ".repeat(len - str.length) + str;
+    }
+
+    // Copy Store Slip Button Handler
+    function copyStoreSlipOnly() {
+      if (!latestStoreSlipText) return;
+      navigator.clipboard.writeText(latestStoreSlipText).then(() => {
+        const btn = document.getElementById("copy-slip-btn");
+        btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Copied!';
+        setTimeout(() => {
+          btn.innerHTML = '<i class="fa-regular fa-copy mr-1"></i> Copy Slip';
+        }, 2000);
+      });
+    }
+
+    // WhatsApp Checkout with Monospace Table + 1-Tap Forwardable Store Slip
     function sendOrderViaWhatsApp(e) {
       e.preventDefault();
 
@@ -685,9 +741,8 @@
       localStorage.setItem("societymart_user", JSON.stringify({ name, building, wing, flat }));
 
       let itemsTotal = 0;
-      let customerBillItems = "";
+      let tableRows = "";
       let shopkeeperPackingList = "";
-      let count = 1;
 
       for (let id in cart) {
         const item = products.find(p => String(p.id) === String(id));
@@ -695,40 +750,64 @@
         const subtotal = item.price * cart[id];
         itemsTotal += subtotal;
         
-        customerBillItems += `${count}️⃣ *${item.name}* (${item.unit})\n   └─ ${cart[id]} x ₹${item.price} = *₹${subtotal}*\n\n`;
-        shopkeeperPackingList += `▫️ ${item.name} (${item.unit}) — [ *${cart[id]} qty* ]\n`;
-        count++;
+        // Aligned Monospace Table Row (28 chars total width)
+        const colItem = padRight(item.name, 16);
+        const colQty  = padLeft(`x${cart[id]}`, 4);
+        const colAmt  = padLeft(`₹${subtotal}`, 8);
+        tableRows += `${colItem}${colQty}${colAmt}\n`;
+
+        // Pure Packing Slip for Store (Zero Price/Margin)
+        shopkeeperPackingList += `- ${item.name} (${item.unit}) : ${cart[id]} qty\n`;
       }
 
       const deliveryCharge = itemsTotal >= 200 ? 0 : 20;
       const grandTotal = itemsTotal + deliveryCharge;
-      const deliveryStatus = deliveryCharge === 0 ? "FREE (₹200+ Offer)" : "₹20";
+      const deliveryLabel = deliveryCharge === 0 ? "FREE" : "₹20";
       const token = Math.floor(100 + Math.random() * 900);
 
+      // Exact Store Forward Slip (Isolated so only this portion gets forwarded)
+      latestStoreSlipText = 
+`*PACKING SLIP (Token: #${token})*
+----------------------------
+${shopkeeperPackingList.trim()}
+----------------------------
+Kripya bag me pack karke rakhein. Pickup ke liye aa rahe hai.`;
+
+      // Show Copy Slip helper on UI as well
+      document.getElementById("store-slip-preview").innerText = latestStoreSlipText;
+      document.getElementById("store-slip-helper").classList.remove("hidden");
+
+      // 1-Tap WhatsApp Forward Link (Tapping this in WhatsApp opens contact picker with ONLY the Store Slip)
+      const oneTapForwardLink = `https://wa.me/?text=${encodeURIComponent(latestStoreSlipText)}`;
+
+      const billTable = 
+"```" + `\n` +
+`Item            Qty      Amt\n` +
+`----------------------------\n` +
+`${tableRows}` +
+`----------------------------\n` +
+`${padRight("Subtotal", 20)}${padLeft("₹" + itemsTotal, 8)}\n` +
+`${padRight("Taxes & Packing", 20)}${padLeft("₹0", 8)}\n` +
+`${padRight("Delivery Fee", 20)}${padLeft(deliveryLabel, 8)}\n` +
+`============================\n` +
+`${padRight("FINAL TOTAL", 20)}${padLeft("₹" + grandTotal, 8)}\n` +
+"```";
+
       const message = 
-`🛒 *NAYA ORDER - SocietyMart*
+`*NAYA ORDER - SocietyMart*
 Order ID: #SM-${flat}-${token}
-━━━━━━━━━━━━━━━━━━━
-👤 *Customer:* ${name}
-📍 *Flat:* ${wing}, Flat No. ${flat}
-🏢 *Society:* ${building}
-💳 *Payment:* ${payment}
+============================
+*Customer:* ${name}
+*Flat:* ${wing}, Flat No. ${flat}
+*Society:* ${building}
+*Payment:* ${payment}
 
-🧾 *BILL DETAILS:*
-───────────────────
-${customerBillItems.trim()}
-───────────────────
-Subtotal: ₹${itemsTotal}
-Delivery Fee: ${deliveryStatus}
-━━━━━━━━━━━━━━━━━━━
-💰 *FINAL TOTAL: ₹${grandTotal}*
-━━━━━━━━━━━━━━━━━━━
+*BILL DETAILS:*
+${billTable}
 
-👇 *(Store Forward Slip - Neeche ka text dukan wale ko bhejein)* 👇
-───────────────────
-📦 *PACKING SLIP (Token: #${token})*
-${shopkeeperPackingList}
-Kripya bag me pack karke rakhein. Pickup ladka aa raha hai.`;
+----------------------------
+*STORE FORWARD SLIP (1-Tap Forward Link):*
+${oneTapForwardLink}`;
 
       const whatsappURL = `https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(whatsappURL, "_blank");
