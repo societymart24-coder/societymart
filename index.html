@@ -18,10 +18,9 @@
 </head>
 <body class="bg-gray-100 text-gray-800 pb-32">
 
-  <!-- Flipkart Minutes Style Sticky Header + Search -->
+  <!-- Header + Live Search -->
   <header class="bg-gradient-to-r from-emerald-800 to-emerald-700 text-white p-3.5 sticky top-0 z-20 shadow-lg">
     <div class="max-w-md mx-auto">
-      <!-- Top Row: Brand, Live ETA & Cart -->
       <div class="flex justify-between items-center mb-3">
         <div>
           <div class="flex items-center gap-2">
@@ -68,7 +67,7 @@
     <span><b>₹200+ par FREE Delivery</b> • Below ₹200: sirf ₹20 flat fee</span>
   </div>
 
-  <!-- Quick Search Pills + Categories -->
+  <!-- Categories Bar -->
   <div class="max-w-md mx-auto px-4 pt-3 pb-2">
     <div id="category-bar" class="flex gap-2 overflow-x-auto no-scrollbar">
       <button onclick="filterCategory('All', this)" class="cat-btn active bg-emerald-700 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap shadow-sm">Sabhi Items</button>
@@ -79,31 +78,34 @@
     </div>
   </div>
 
-  <!-- Search Result Info Header -->
+  <!-- Search Result Status -->
   <div id="search-status" class="max-w-md mx-auto px-4 pb-2 hidden">
     <p class="text-xs text-gray-600 font-medium">Search results for: <span id="search-term-display" class="font-bold text-emerald-800"></span></p>
   </div>
 
   <!-- Product Grid -->
   <main class="max-w-md mx-auto px-4">
+    <div id="loading-indicator" class="text-center py-6 text-xs text-gray-500 hidden">
+      <i class="fa-solid fa-spinner fa-spin mr-1 text-emerald-700"></i> Store items load ho rahe hain...
+    </div>
+
     <div id="product-list" class="grid grid-cols-2 gap-3">
       <!-- Dynamic Products -->
     </div>
 
-    <!-- Custom Request Box (Shows when search has few/no results) -->
+    <!-- Custom Request Box -->
     <div id="not-found-box" class="hidden mt-4 bg-white border border-dashed border-emerald-400 rounded-2xl p-5 text-center shadow-sm">
       <div class="text-2xl mb-1">🔍</div>
       <h3 class="text-sm font-bold text-gray-800">Ye item list me nahi mila?</h3>
-      <p class="text-xs text-gray-500 mt-1">Chinta mat karein! Kirana store par sab available hai. Seedha WhatsApp par naam bhej kar mangwayein.</p>
+      <p class="text-xs text-gray-500 mt-1">Kirana store par sab available hai. Seedha WhatsApp par naam bhej kar mangwayein.</p>
       <button onclick="requestCustomItem()" class="mt-3 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl inline-flex items-center gap-2 shadow">
         <i class="fa-brands fa-whatsapp text-sm"></i> "<span id="custom-item-label">Item</span>" WhatsApp Par Mangwayein
       </button>
     </div>
   </main>
 
-  <!-- Flipkart Minutes Style Sticky Bottom Bar with Progress Bar -->
+  <!-- Sticky Bottom Bar with Free Delivery Progress -->
   <div id="bottom-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] hidden z-10">
-    <!-- Mini Free Delivery Progress Bar -->
     <div class="bg-emerald-50 px-4 py-1.5 border-b border-emerald-100">
       <div class="max-w-md mx-auto">
         <div class="flex justify-between items-center text-[10px] font-bold mb-1">
@@ -116,7 +118,6 @@
       </div>
     </div>
 
-    <!-- Cart Total & Action Button -->
     <div class="max-w-md mx-auto p-3 flex justify-between items-center">
       <div>
         <p class="text-[11px] text-gray-500 font-semibold"><span id="total-items">0</span> Items added</p>
@@ -146,41 +147,17 @@
       </div>
 
       <!-- Items in Cart -->
-      <div id="cart-items-summary" class="border-b pb-3 mb-3 space-y-2">
-        <!-- Dynamic Items -->
-      </div>
+      <div id="cart-items-summary" class="border-b pb-3 mb-3 space-y-2"></div>
 
-      <!-- Impulse Upsell Booster -->
-      <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-3 mb-4">
+      <!-- Dynamic Upsell Section -->
+      <div id="upsell-box" class="bg-amber-50/80 border border-amber-200 rounded-xl p-3 mb-4 hidden">
         <p class="text-xs font-bold text-amber-950 mb-2 flex items-center gap-1">
           <span>🍿</span> Last-minute munchies add karein:
         </p>
-        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-          <div class="bg-white p-2 rounded-lg border border-gray-200 min-w-[130px] flex-shrink-0 flex items-center justify-between">
-            <div>
-              <p class="text-[11px] font-bold text-gray-800">Lays Classic</p>
-              <p class="text-[10px] text-gray-500">₹20</p>
-            </div>
-            <button onclick="updateCart(10, 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-2 py-0.5 rounded text-[10px] font-bold hover:bg-emerald-100">+ Add</button>
-          </div>
-          <div class="bg-white p-2 rounded-lg border border-gray-200 min-w-[130px] flex-shrink-0 flex items-center justify-between">
-            <div>
-              <p class="text-[11px] font-bold text-gray-800">Coca Cola Can</p>
-              <p class="text-[10px] text-gray-500">₹40</p>
-            </div>
-            <button onclick="updateCart(11, 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-2 py-0.5 rounded text-[10px] font-bold hover:bg-emerald-100">+ Add</button>
-          </div>
-          <div class="bg-white p-2 rounded-lg border border-gray-200 min-w-[130px] flex-shrink-0 flex items-center justify-between">
-            <div>
-              <p class="text-[11px] font-bold text-gray-800">Dairy Milk</p>
-              <p class="text-[10px] text-gray-500">₹20</p>
-            </div>
-            <button onclick="updateCart(12, 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-2 py-0.5 rounded text-[10px] font-bold hover:bg-emerald-100">+ Add</button>
-          </div>
-        </div>
+        <div id="upsell-items" class="flex gap-2 overflow-x-auto no-scrollbar pb-1"></div>
       </div>
 
-      <!-- Delivery Address Form (Auto-saved in browser) -->
+      <!-- Delivery Address Form -->
       <form id="order-form" onsubmit="sendOrderViaWhatsApp(event)" class="space-y-3">
         <div>
           <label class="block text-xs font-semibold text-gray-700 mb-1">Aapka Naam *</label>
@@ -222,37 +199,119 @@
     // 1. AAPKA WHATSAPP NUMBER (91 ke sath, bina '+' ke)
     const STORE_WHATSAPP_NUMBER = "919960479334"; 
 
-    // 2. PRODUCT CATALOG (With MRP for Flipkart Minutes Discount Feel)
-    const products = [
-      { id: 1, name: "Amul Taaza Toned Milk", unit: "500 ml", mrp: 28, price: 27, category: "Dairy", img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300&auto=format&fit=crop&q=60" },
-      { id: 2, name: "Amul Pasteurised Butter", unit: "100 g", mrp: 60, price: 58, category: "Dairy", img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=300&auto=format&fit=crop&q=60" },
-      { id: 3, name: "Fresh Bread (White/Brown)", unit: "1 Packet", mrp: 45, price: 45, category: "Dairy", img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&auto=format&fit=crop&q=60" },
-      { id: 4, name: "Aashirvaad Shudh Chakki Atta", unit: "5 kg", mrp: 265, price: 245, category: "AttaOil", img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=60" },
-      { id: 5, name: "Fortune Sunlite Refined Oil", unit: "1 Litre", mrp: 155, price: 140, category: "AttaOil", img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&auto=format&fit=crop&q=60" },
-      { id: 6, name: "Tata Iodized Salt", unit: "1 kg", mrp: 30, price: 28, category: "Daily", img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300&auto=format&fit=crop&q=60" },
-      { id: 7, name: "Wagh Bakri Premium Chai", unit: "250 g", mrp: 150, price: 140, category: "Snacks", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300&auto=format&fit=crop&q=60" },
-      { id: 8, name: "Maggi Masala Noodles", unit: "Pack of 4", mrp: 60, price: 56, category: "Snacks", img: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=300&auto=format&fit=crop&q=60" },
-      { id: 9, name: "Surf Excel Easy Wash", unit: "1 kg", mrp: 148, price: 135, category: "Daily", img: "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=300&auto=format&fit=crop&q=60" },
-      { id: 10, name: "Lays Classic Salted Chips", unit: "1 Packet", mrp: 20, price: 20, category: "Snacks", img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300&auto=format&fit=crop&q=60" },
-      { id: 11, name: "Coca Cola Soft Drink (Can)", unit: "300 ml", mrp: 40, price: 40, category: "Snacks", img: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=300&auto=format&fit=crop&q=60" },
-      { id: 12, name: "Cadbury Dairy Milk Chocolate", unit: "1 Bar", mrp: 20, price: 20, category: "Snacks", img: "https://images.unsplash.com/photo-1511381939415-e44015466834?w=300&auto=format&fit=crop&q=60" }
+    // 2. GOOGLE SHEET PUBLISHED CSV LINK YAHAN PASTE KAREIN
+    const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTSjGDpDH2YVdKONBSpYfOuFXlVHRwIvufRWWXc3M22LrObW3vzhrndMvq1mkHtnJmPjC_advF9v5og/pub?gid=0&single=true&output=csv"; 
+
+    // Backup Default Products (Jab tak Google Sheet link nahi dalte tab tak ye dikhenge)
+    let products = [
+      { id: "1", name: "Amul Taaza Toned Milk", unit: "500 ml", mrp: 28, price: 27, category: "Dairy", inStock: true, img: "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300&auto=format&fit=crop&q=60" },
+      { id: "2", name: "Amul Pasteurised Butter", unit: "100 g", mrp: 60, price: 58, category: "Dairy", inStock: true, img: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=300&auto=format&fit=crop&q=60" },
+      { id: "3", name: "Fresh Bread (White/Brown)", unit: "1 Packet", mrp: 45, price: 45, category: "Dairy", inStock: true, img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=300&auto=format&fit=crop&q=60" },
+      { id: "4", name: "Aashirvaad Shudh Chakki Atta", unit: "5 kg", mrp: 265, price: 245, category: "AttaOil", inStock: true, img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=300&auto=format&fit=crop&q=60" },
+      { id: "5", name: "Fortune Sunlite Refined Oil", unit: "1 Litre", mrp: 155, price: 140, category: "AttaOil", inStock: true, img: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=300&auto=format&fit=crop&q=60" },
+      { id: "6", name: "Tata Iodized Salt", unit: "1 kg", mrp: 30, price: 28, category: "Daily", inStock: true, img: "https://images.unsplash.com/photo-1518110925495-5fe2fda0442c?w=300&auto=format&fit=crop&q=60" },
+      { id: "7", name: "Wagh Bakri Premium Chai", unit: "250 g", mrp: 150, price: 140, category: "Snacks", inStock: true, img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300&auto=format&fit=crop&q=60" },
+      { id: "8", name: "Maggi Masala Noodles", unit: "Pack of 4", mrp: 60, price: 56, category: "Snacks", inStock: true, img: "https://images.unsplash.com/photo-1612927601601-6638404737ce?w=300&auto=format&fit=crop&q=60" },
+      { id: "9", name: "Lays Classic Salted Chips", unit: "1 Packet", mrp: 20, price: 20, category: "Snacks", inStock: true, img: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300&auto=format&fit=crop&q=60" }
     ];
 
     let cart = {};
     let currentCategory = "All";
     let searchQuery = "";
 
-    // Load saved customer address if available
-    window.addEventListener("DOMContentLoaded", () => {
+    // Page Load Setup
+    window.addEventListener("DOMContentLoaded", async () => {
       const savedUser = JSON.parse(localStorage.getItem("societymart_user") || "{}");
       if (savedUser.name) document.getElementById("cust-name").value = savedUser.name;
       if (savedUser.building) document.getElementById("cust-building").value = savedUser.building;
       if (savedUser.wing) document.getElementById("cust-wing").value = savedUser.wing;
       if (savedUser.flat) document.getElementById("cust-flat").value = savedUser.flat;
-      renderProducts();
+
+      if (GOOGLE_SHEET_CSV_URL && GOOGLE_SHEET_CSV_URL.trim() !== "") {
+        await loadProductsFromSheet();
+      } else {
+        renderProducts();
+      }
     });
 
-    // Live Search Handler
+    // Fetch & Parse Google Sheet CSV
+    async function loadProductsFromSheet() {
+      const loader = document.getElementById("loading-indicator");
+      loader.classList.remove("hidden");
+
+      try {
+        // Cache buster taaki hamesha latest prices aayein
+        const separator = GOOGLE_SHEET_CSV_URL.includes("?") ? "&" : "?";
+        const response = await fetch(`${GOOGLE_SHEET_CSV_URL}${separator}_t=${Date.now()}`);
+        const csvText = await response.text();
+        
+        const rows = parseCSV(csvText);
+        if (rows.length > 1) {
+          const parsedProducts = [];
+          // Row 0 header hai, isliye i = 1 se start
+          for (let i = 1; i < rows.length; i++) {
+            const cols = rows[i];
+            if (!cols[1] || cols[1].trim() === "") continue; // Skip empty rows
+
+            const id = (cols[0] || i).trim();
+            const name = cols[1].trim();
+            const unit = (cols[2] || "1 Unit").trim();
+            const mrp = parseFloat(cols[3]) || 0;
+            const price = parseFloat(cols[4]) || mrp;
+            const category = (cols[5] || "Daily").trim();
+            const stockRaw = (cols[6] || "YES").trim().toUpperCase();
+            const inStock = stockRaw !== "NO" && stockRaw !== "FALSE" && stockRaw !== "0";
+            const img = (cols[7] && cols[7].trim().startsWith("http")) 
+              ? cols[7].trim() 
+              : `https://placehold.co/300x200/ecfdf5/065f46?text=${encodeURIComponent(name.slice(0, 18))}`;
+
+            parsedProducts.push({ id, name, unit, mrp, price, category, inStock, img });
+          }
+
+          if (parsedProducts.length > 0) {
+            products = parsedProducts;
+          }
+        }
+      } catch (err) {
+        console.error("Google Sheet load error:", err);
+      } finally {
+        loader.classList.add("hidden");
+        renderProducts();
+      }
+    }
+
+    // Safe CSV Parser (Commas inside quotes handle karne ke liye)
+    function parseCSV(text) {
+      const result = [];
+      let row = [];
+      let current = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          row.push(current);
+          current = "";
+        } else if ((char === '\n' || char === '\r') && !inQuotes) {
+          if (char === '\r' && text[i + 1] === '\n') i++;
+          row.push(current);
+          result.push(row);
+          row = [];
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+      if (current || row.length > 0) {
+        row.push(current);
+        result.push(row);
+      }
+      return result;
+    }
+
+    // Search Handler
     function handleSearch() {
       const input = document.getElementById("search-input");
       const clearBtn = document.getElementById("clear-search-btn");
@@ -278,7 +337,7 @@
       handleSearch();
     }
 
-    // Render Products (Supports both Search & Category Filter)
+    // Render Product Cards
     function renderProducts() {
       const container = document.getElementById("product-list");
       const notFoundBox = document.getElementById("not-found-box");
@@ -294,10 +353,9 @@
           p.unit.toLowerCase().includes(searchQuery)
         );
       } else if (currentCategory !== "All") {
-        filtered = products.filter(p => p.category === currentCategory);
+        filtered = products.filter(p => p.category.toLowerCase() === currentCategory.toLowerCase());
       }
 
-      // Show Custom Item Request Box if searching
       if (searchQuery.length > 0 && filtered.length <= 1) {
         notFoundBox.classList.remove("hidden");
         customItemLabel.innerText = document.getElementById("search-input").value.trim();
@@ -308,17 +366,20 @@
       filtered.forEach(p => {
         const qty = cart[p.id] || 0;
         const discount = p.mrp > p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
+        const isOut = p.inStock === false;
 
         const card = document.createElement("div");
-        card.className = "bg-white p-2.5 rounded-2xl border border-gray-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between relative overflow-hidden";
+        card.className = `bg-white p-2.5 rounded-2xl border border-gray-200/80 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex flex-col justify-between relative overflow-hidden ${isOut ? 'opacity-65' : ''}`;
+        
         card.innerHTML = `
-          ${discount > 0 ? `<span class="absolute top-2 left-2 bg-emerald-600 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-md z-10 shadow-sm">${discount}% OFF</span>` : ''}
+          ${isOut 
+            ? `<span class="absolute top-2 left-2 bg-gray-800 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-md z-10">OUT OF STOCK</span>` 
+            : (discount > 0 ? `<span class="absolute top-2 left-2 bg-emerald-600 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-md z-10 shadow-sm">${discount}% OFF</span>` : '')
+          }
           <div>
             <div class="relative">
-              <img src="${p.img}" alt="${p.name}" class="w-full h-24 object-cover rounded-xl mb-2 bg-gray-50">
-              <span class="absolute bottom-3 right-1.5 bg-white/90 backdrop-blur-xs text-gray-700 text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs flex items-center gap-0.5">
-                <i class="fa-solid fa-bolt text-amber-500"></i> 15m
-              </span>
+              <img src="${p.img}" alt="${p.name}" class="w-full h-24 object-cover rounded-xl mb-2 bg-gray-50 ${isOut ? 'grayscale' : ''}">
+              ${!isOut ? `<span class="absolute bottom-3 right-1.5 bg-white/90 text-gray-700 text-[9px] font-bold px-1.5 py-0.5 rounded shadow-xs flex items-center gap-0.5"><i class="fa-solid fa-bolt text-amber-500"></i> 15m</span>` : ''}
             </div>
             <h3 class="font-bold text-xs text-gray-800 line-clamp-2 leading-tight">${p.name}</h3>
             <p class="text-[11px] text-gray-500 mt-0.5">${p.unit}</p>
@@ -329,13 +390,16 @@
               ${p.mrp > p.price ? `<span class="text-[10px] text-gray-400 line-through ml-1">₹${p.mrp}</span>` : ''}
             </div>
             <div>
-              ${qty === 0 ? 
-                `<button onclick="updateCart(${p.id}, 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-3 py-1 rounded-lg text-xs font-extrabold hover:bg-emerald-100 transition active:scale-95">ADD</button>` :
-                `<div class="flex items-center gap-2 bg-emerald-700 text-white rounded-lg px-2 py-1 text-xs font-bold shadow-xs">
-                  <button onclick="updateCart(${p.id}, -1)" class="px-1 text-sm font-black">-</button>
-                  <span class="text-xs">${qty}</span>
-                  <button onclick="updateCart(${p.id}, 1)" class="px-1 text-sm font-black">+</button>
-                </div>`
+              ${isOut 
+                ? `<span class="text-[10px] font-bold text-gray-400 border border-gray-200 px-2 py-1 rounded-lg bg-gray-50">Sold Out</span>`
+                : (qty === 0 
+                    ? `<button onclick="updateCart('${p.id}', 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-3 py-1 rounded-lg text-xs font-extrabold hover:bg-emerald-100 transition active:scale-95">ADD</button>` 
+                    : `<div class="flex items-center gap-2 bg-emerald-700 text-white rounded-lg px-2 py-1 text-xs font-bold shadow-xs">
+                        <button onclick="updateCart('${p.id}', -1)" class="px-1 text-sm font-black">-</button>
+                        <span class="text-xs">${qty}</span>
+                        <button onclick="updateCart('${p.id}', 1)" class="px-1 text-sm font-black">+</button>
+                      </div>`
+                  )
               }
             </div>
           </div>
@@ -372,7 +436,8 @@
       let itemsTotal = 0;
 
       for (let id in cart) {
-        const item = products.find(p => p.id == id);
+        const item = products.find(p => String(p.id) === String(id));
+        if (!item) continue;
         totalQty += cart[id];
         itemsTotal += item.price * cart[id];
       }
@@ -384,7 +449,6 @@
       document.getElementById("total-items").innerText = totalQty;
       document.getElementById("bottom-total-price").innerText = finalAmount;
 
-      // Update Progress Bar
       const percent = Math.min(100, Math.round((itemsTotal / 200) * 100));
       document.getElementById("progress-fill").style.width = `${percent}%`;
       document.getElementById("progress-percent").innerText = `${percent}%`;
@@ -435,7 +499,8 @@
       let itemsTotal = 0;
 
       for (let id in cart) {
-        const item = products.find(p => p.id == id);
+        const item = products.find(p => String(p.id) === String(id));
+        if (!item) continue;
         const subtotal = item.price * cart[id];
         itemsTotal += subtotal;
 
@@ -447,9 +512,9 @@
             </div>
             <div class="flex items-center gap-3">
               <div class="flex items-center gap-2 bg-gray-100 border border-gray-300 rounded-lg px-2 py-0.5 text-xs font-bold">
-                <button onclick="updateCart(${item.id}, -1)" class="text-emerald-700 font-black">-</button>
+                <button onclick="updateCart('${item.id}', -1)" class="text-emerald-700 font-black">-</button>
                 <span>${cart[id]}</span>
-                <button onclick="updateCart(${item.id}, 1)" class="text-emerald-700 font-black">+</button>
+                <button onclick="updateCart('${item.id}', 1)" class="text-emerald-700 font-black">+</button>
               </div>
               <span class="font-bold text-gray-900 w-10 text-right">₹${subtotal}</span>
             </div>
@@ -489,9 +554,28 @@
           </div>
         </div>
       `;
+
+      // Dynamic Upsell Munchies from in-stock Snacks
+      const upsellBox = document.getElementById("upsell-box");
+      const upsellContainer = document.getElementById("upsell-items");
+      const snacks = products.filter(p => p.category.toLowerCase() === "snacks" && p.inStock !== false).slice(0, 4);
+
+      if (snacks.length > 0) {
+        upsellBox.classList.remove("hidden");
+        upsellContainer.innerHTML = snacks.map(s => `
+          <div class="bg-white p-2 rounded-lg border border-gray-200 min-w-[135px] flex-shrink-0 flex items-center justify-between gap-2">
+            <div class="overflow-hidden">
+              <p class="text-[11px] font-bold text-gray-800 truncate">${s.name}</p>
+              <p class="text-[10px] text-gray-500">₹${s.price}</p>
+            </div>
+            <button type="button" onclick="updateCart('${s.id}', 1)" class="bg-emerald-50 text-emerald-700 border border-emerald-600 px-2 py-0.5 rounded text-[10px] font-bold hover:bg-emerald-100 flex-shrink-0">+ Add</button>
+          </div>
+        `).join("");
+      } else {
+        upsellBox.classList.add("hidden");
+      }
     }
 
-    // Custom Item Request via WhatsApp (When search yields missing item)
     function requestCustomItem() {
       const requestedItem = document.getElementById("search-input").value.trim();
       const savedUser = JSON.parse(localStorage.getItem("societymart_user") || "{}");
@@ -501,7 +585,7 @@
       window.open(`https://wa.me/${STORE_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
     }
 
-    // 3. WHATSAPP ORDER + SHOPKEEPER PACKING SLIP
+    // WhatsApp Order + Shopkeeper Packing Slip
     function sendOrderViaWhatsApp(e) {
       e.preventDefault();
 
@@ -511,7 +595,6 @@
       const flat = document.getElementById("cust-flat").value.trim();
       const payment = document.getElementById("cust-payment").value;
 
-      // Save customer details in browser for next order
       localStorage.setItem("societymart_user", JSON.stringify({ name, building, wing, flat }));
 
       let itemsTotal = 0;
@@ -520,7 +603,8 @@
       let count = 1;
 
       for (let id in cart) {
-        const item = products.find(p => p.id == id);
+        const item = products.find(p => String(p.id) === String(id));
+        if (!item) continue;
         const subtotal = item.price * cart[id];
         itemsTotal += subtotal;
         
